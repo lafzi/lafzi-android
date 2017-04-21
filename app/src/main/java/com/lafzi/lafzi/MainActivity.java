@@ -1,17 +1,17 @@
 package com.lafzi.lafzi;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.lafzi.lafzi.adapters.AyatAdapter;
-import com.lafzi.lafzi.model.Ayat;
+import com.lafzi.lafzi.queryListeners.AyatQuranQueryListeners;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,36 +21,45 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        modifyActionBar();
         setContentView(R.layout.activity_main);
-
         setView();
+    }
 
-        final AyatAdapter adapter = new AyatAdapter(this, generateAyat());
-        listView.setAdapter(adapter);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.pengaturan:
+                Toast.makeText(this, "Pengaturan", Toast.LENGTH_LONG).show();
+                return true;
+        }
+        return true;
+    }
+
+    private void modifyActionBar(){
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.logo_s);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
     }
 
     private void setView(){
         searchView = (SearchView) findViewById(R.id.search);
+        searchView.setQueryHint(getString(R.string.search_placeholder));
+        searchView.setIconified(false);
+
+        final AyatAdapter ayatAdapter = new AyatAdapter(this, Collections.EMPTY_LIST);
+
         listView = (ListView) findViewById(R.id.list_view);
-    }
-
-    private List<Ayat> generateAyat(){
-
-        final List<Ayat> ayats = new ArrayList<>();
-
-        final Ayat ayat1 = new Ayat(
-                "Segala puji bagi Allah",
-                "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِين"
-        );
-
-        final Ayat ayat2 = new Ayat(
-                "Maka orang-orang yang zalim itu dimusnahkan sampai ke akar-akarnya. Segala puji bagi Allah, Tuhan semesta alam",
-                "فَقُطِعَ دَابِرُ ٱلْقَوْمِ ٱلَّذِينَ ظَلَمُوا۟ ۚ وَٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ"
-        );
-
-        ayats.add(ayat1);
-        ayats.add(ayat2);
-
-        return ayats;
+        listView.setAdapter(ayatAdapter);
+        listView.setEmptyView(findViewById(R.id.empty_result));
+        searchView.setOnQueryTextListener(new AyatQuranQueryListeners(ayatAdapter));
     }
 }

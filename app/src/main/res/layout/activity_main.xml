@@ -4,6 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_dots"
     android:orientation="horizontal">
 
     <android.support.v7.widget.SearchView
@@ -21,4 +22,11 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/search"/>
 
+    <TextView
+        android:id="@+id/empty_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/empty_result"
+        android:visibility="gone"/>
 </RelativeLayout>
