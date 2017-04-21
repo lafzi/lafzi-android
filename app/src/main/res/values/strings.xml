@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Lafzi</string>
+    <string name="bantuan">Bantuan</string>
+    <string name="more">More</string>
+    <string name="pengaturan">Pengaturan</string>
+    <string name="about">Tentang Lafzi</string>
+    <string name="search_placeholder">Ketikkan lafaz yang dicari</string>
+    <string name="surah">Surat</string>
+    <string name="ayah">Ayat</string>
+    <string name="empty_result">Tidak ada hasil. Pastikan lafaz yang dicari lebih dari 3 karakter dan ada pada Al-Quran</string>
 </resources>
