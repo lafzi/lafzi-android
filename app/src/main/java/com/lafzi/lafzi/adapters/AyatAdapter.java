@@ -6,14 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Filter;
 import android.widget.TextView;
 
 import com.lafzi.lafzi.R;
 import com.lafzi.lafzi.filters.AyatAdapterFilter;
 import com.lafzi.lafzi.models.AyatQuran;
 
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Created by alfat on 19/04/17.
@@ -21,11 +20,11 @@ import java.util.List;
 
 public class AyatAdapter extends ArrayAdapter<AyatQuran> {
 
-    private final Filter mFilter;
+    private final AyatAdapterFilter mFilter;
 
-    public AyatAdapter(Context context, List<AyatQuran> objects) {
+    public AyatAdapter(Context context, LinkedList<AyatQuran> objects) {
         super(context, 0, objects);
-        this.mFilter = new AyatAdapterFilter(context);
+        this.mFilter = new AyatAdapterFilter(context, this);
     }
 
     @NonNull
@@ -52,12 +51,14 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
         arabicTextView.setText(ayat.getAyatArabic());
         indoTextView.setText(ayat.getAyatIndonesian());
 
+        notifyDataSetChanged();
+
         return convertView;
     }
 
     @NonNull
     @Override
-    public Filter getFilter() {
+    public AyatAdapterFilter getFilter() {
         return mFilter;
     }
 }

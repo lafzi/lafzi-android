@@ -1,6 +1,7 @@
 package com.lafzi.lafzi.models;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by alfat on 21/04/17.
@@ -8,18 +9,18 @@ import java.util.List;
 
 public class FoundDocument {
 
-    private String id;
+    private int ayatQuranId;
     private int matchedTrigramsCount;
     private int matchedTermsOrderScore;
     private int matchedTermsCountScore;
-    private int matchedTermsContiguityScore;
-    private int score;
-    private List<String> terms;
+    private double matchedTermsContiguityScore;
+    private double score;
+    private Map<String, List<Integer>> matchedTerms;
     private List<Integer> lis;
     private List<Integer> highlightPosition;
 
-    public String getId() {
-        return id;
+    public int getAyatQuranId() {
+        return ayatQuranId;
     }
 
     public int getMatchedTrigramsCount() {
@@ -34,16 +35,16 @@ public class FoundDocument {
         return matchedTermsCountScore;
     }
 
-    public int getMatchedTermsContiguityScore() {
+    public double getMatchedTermsContiguityScore() {
         return matchedTermsContiguityScore;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public List<String> getTerms() {
-        return terms;
+    public Map<String, List<Integer>> getMatchedTerms() {
+        return matchedTerms;
     }
 
     public List<Integer> getLis() {
@@ -54,8 +55,8 @@ public class FoundDocument {
         return highlightPosition;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setAyatQuranId(int ayatQuranId) {
+        this.ayatQuranId = ayatQuranId;
     }
 
     public void setMatchedTrigramsCount(int matchedTrigramsCount) {
@@ -70,16 +71,16 @@ public class FoundDocument {
         this.matchedTermsCountScore = matchedTermsCountScore;
     }
 
-    public void setMatchedTermsContiguityScore(int matchedTermsContiguityScore) {
+    public void setMatchedTermsContiguityScore(double matchedTermsContiguityScore) {
         this.matchedTermsContiguityScore = matchedTermsContiguityScore;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 
-    public void setTerms(List<String> terms) {
-        this.terms = terms;
+    public void setMatchedTerms(Map<String, List<Integer>> matchedTerms) {
+        this.matchedTerms = matchedTerms;
     }
 
     public void setLis(List<Integer> lis) {

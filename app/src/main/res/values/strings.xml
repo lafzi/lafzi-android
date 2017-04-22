@@ -8,4 +8,5 @@
     <string name="surah">Surat</string>
     <string name="ayah">Ayat</string>
     <string name="empty_result">Tidak ada hasil. Pastikan lafaz yang dicari lebih dari 3 karakter dan ada pada Al-Quran</string>
+    <string name="query_less_than_3">Lafaz dicari minimal 3 karakter</string>
 </resources>

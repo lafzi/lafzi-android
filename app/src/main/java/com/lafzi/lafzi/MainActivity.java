@@ -9,9 +9,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.lafzi.lafzi.adapters.AyatAdapter;
+import com.lafzi.lafzi.models.AyatQuran;
 import com.lafzi.lafzi.queryListeners.AyatQuranQueryListeners;
 
-import java.util.Collections;
+import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
         searchView.setQueryHint(getString(R.string.search_placeholder));
         searchView.setIconified(false);
 
-        final AyatAdapter ayatAdapter = new AyatAdapter(this, Collections.EMPTY_LIST);
+        final AyatAdapter ayatAdapter = new AyatAdapter(this, new LinkedList<AyatQuran>());
 
         listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(ayatAdapter);
         listView.setEmptyView(findViewById(R.id.empty_result));
-        searchView.setOnQueryTextListener(new AyatQuranQueryListeners(ayatAdapter));
+        searchView.setOnQueryTextListener(new AyatQuranQueryListeners(ayatAdapter, getApplicationContext()));
     }
 }

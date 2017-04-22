@@ -25,7 +25,7 @@ public class TrigramUtil {
         }
 
         for (int i = 0; i < text.length() - 2; i++){
-            final String trigram = text.substring(i, i + 2);
+            final String trigram = text.substring(i, i + 3);
 
             FreqAndPosition newFp;
             if (results.containsKey(trigram)){
