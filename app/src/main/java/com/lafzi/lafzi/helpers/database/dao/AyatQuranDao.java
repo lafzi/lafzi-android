@@ -2,11 +2,13 @@ package com.lafzi.lafzi.helpers.database.dao;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import com.lafzi.lafzi.models.AyatQuran;
 import com.lafzi.lafzi.models.builder.AyatQuranBuilder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,7 +23,7 @@ public class AyatQuranDao {
         this.db = db;
     }
 
-    public AyatQuran getAyatQuran(int id){
+    public AyatQuran getAyatQuran(final int id){
 
         final String[] projection = {
                 AyatQuran._ID,
@@ -44,15 +46,39 @@ public class AyatQuranDao {
         return null;
     }
 
-    public List<AyatQuran> getAyatQuransByTrigramTerm(final String term){
+    public List<AyatQuran> getAyatQurans(final List<Integer> ids){
 
-        final List<AyatQuran> results = new ArrayList<>();
-        final String[] selectionArgs = { term };
-        final Cursor cursor = db.rawQuery(sqlAyatByTerm, selectionArgs);
+        final String[] projection = {
+                AyatQuran._ID,
+                AyatQuran.SURAH_NO,
+                AyatQuran.SURAH_NAME,
+                AyatQuran.AYAT_NO,
+                AyatQuran.AYAT_ARABIC,
+                AyatQuran.AYAT_INDONESIAN
+        };
 
-        while (cursor.moveToNext()){
-            results.add(readAyatQuranFromCursor(cursor));
+        final String selection = AyatQuran._ID + " IN (" +
+                TextUtils.join(",", Collections.nCopies(ids.size(), "?")) + ")";
+        final String[] selectionArgs = new String[ids.size()];
+        int i = 0;
+        for (Integer id : ids){
+            selectionArgs[i] = Integer.toString(id);
+            i++;
         }
+
+        String order = "";
+        i = 0;
+        for (Integer id : ids){
+            order += AyatQuran._ID + " = " + id + " DESC";
+            if (i < ids.size() - 1)
+                order += ", ";
+            i++;
+        }
+
+        final Cursor cursor = db.query(AyatQuran.TABLE_NAME, projection, selection, selectionArgs, null, null, order);
+        final List<AyatQuran> results = new ArrayList<>();
+        while (cursor.moveToNext())
+            results.add(readAyatQuranFromCursor(cursor));
 
         return results;
     }
@@ -85,18 +111,6 @@ public class AyatQuranDao {
                         .getColumnIndexOrThrow(AyatQuran.AYAT_INDONESIAN)));
 
         return aqBuilder.build();
-    }
-
-    private String sqlAyatByTerm = "SELECT \n" +
-            "aq.*\n" +
-            "FROM\n" +
-            "ayat_quran aq\n" +
-            "INNER JOIN nonvocal_index nvi ON aq.\"_id\" = nvi.ayat_quran_id\n" +
-            "WHERE\n" +
-            "nvi.term = ?";
-
-    public void close(){
-        db.close();
     }
 
 }

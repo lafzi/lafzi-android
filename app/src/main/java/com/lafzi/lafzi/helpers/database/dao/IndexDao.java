@@ -27,6 +27,7 @@ public class IndexDao {
         final String tableName = isVocal ? Index.VOCAL_INDEX_TABLE_NAME : Index.NONVOCAL_INDEX_TABLE_NAME;
 
         final String[] projection = {
+                Index._ID,
                 Index.AYAT_QURAN_ID,
                 Index.TERM,
                 Index.FREQUENCY,
