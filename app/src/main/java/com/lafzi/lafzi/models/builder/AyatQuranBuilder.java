@@ -14,6 +14,7 @@ public class AyatQuranBuilder {
     private int ayatNo;
     private String ayatArabic;
     private String ayatIndonesian;
+    private String ayatMuqathaat;
 
     private AyatQuranBuilder(){}
 
@@ -53,6 +54,11 @@ public class AyatQuranBuilder {
         return this;
     }
 
+    public AyatQuranBuilder setAyatMuqathaat(String ayatMuqathaat) {
+        this.ayatMuqathaat = ayatMuqathaat;
+        return this;
+    }
+
     public AyatQuran build(){
         return new AyatQuran(
                 id,
@@ -60,7 +66,8 @@ public class AyatQuranBuilder {
                 surahName,
                 ayatNo,
                 ayatArabic,
-                ayatIndonesian
+                ayatIndonesian,
+                ayatMuqathaat
         );
     }
 }

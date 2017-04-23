@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.lafzi.lafzi.R;
 import com.lafzi.lafzi.adapters.AyatAdapter;
-import com.lafzi.lafzi.fragments.SettingFragment;
+import com.lafzi.lafzi.clickListeners.AyatLongClickListener;
 import com.lafzi.lafzi.models.AyatQuran;
 import com.lafzi.lafzi.queryListeners.AyatQuranQueryListeners;
 
@@ -64,12 +64,14 @@ public class MainActivity extends AppCompatActivity {
     private void setView(){
         final SearchView searchView = (SearchView) findViewById(R.id.search);
         searchView.setQueryHint(getString(R.string.search_placeholder));
+        searchView.setIconified(false);
 
         final AyatAdapter ayatAdapter = new AyatAdapter(this, new LinkedList<AyatQuran>());
 
         final ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(ayatAdapter);
         listView.setEmptyView(findViewById(R.id.empty_result));
+        listView.setOnItemLongClickListener(new AyatLongClickListener(this));
         searchView.setOnQueryTextListener(new AyatQuranQueryListeners(ayatAdapter, getApplicationContext()));
     }
 

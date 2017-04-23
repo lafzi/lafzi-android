@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.lafzi.lafzi.R;
 import com.lafzi.lafzi.models.AyatQuran;
@@ -27,13 +28,16 @@ public class AyatQuranInitiator {
                 AyatQuran.SURAH_NAME + " TEXT," +
                 AyatQuran.AYAT_NO + " INTEGER," +
                 AyatQuran.AYAT_ARABIC + " TEXT," +
-                AyatQuran.AYAT_INDONESIAN + " TEXT)";
+                AyatQuran.AYAT_INDONESIAN + " TEXT," +
+                AyatQuran.AYAT_MUQATHAAT + " TEXT)";
 
         db.execSQL(sql);
         Log.i("database", "Successfully initiated ayat_quran table");
     }
 
     public static void insertionTableAyatQuran(final Context context, final SQLiteDatabase db) throws IOException {
+
+        final SparseArray<SparseArray<String>> muqathaatMap = createMuqathaatMap(context);
 
         final InputStream inputStreamQuranText = context
                 .getResources()
@@ -62,6 +66,18 @@ public class AyatQuranInitiator {
             contentValues.put(AyatQuran.AYAT_ARABIC, quranText[3]);
             contentValues.put(AyatQuran.AYAT_INDONESIAN, quranTranslate[2]);
 
+            final int surahNo = Integer.parseInt(quranText[0]);
+            final int ayahNo = Integer.parseInt(quranText[2]);
+
+            if (muqathaatMap
+                    .get(surahNo, new SparseArray<String>())
+                    .get(ayahNo, null) != null){
+                contentValues.put(
+                        AyatQuran.AYAT_MUQATHAAT,
+                        muqathaatMap.get(surahNo).get(ayahNo)
+                );
+            }
+
             db.insert(
                     AyatQuran.TABLE_NAME,
                     null,
@@ -73,6 +89,32 @@ public class AyatQuranInitiator {
         inputStreamQuranTranslate.close();
         scannerInputStreamQuranText.close();
         scannerInputStreamQuranTranslate.close();
+        muqathaatMap.clear();
+    }
+
+    private static SparseArray<SparseArray<String>> createMuqathaatMap(final Context context) throws IOException {
+
+        final InputStream inputStream = context
+                .getResources()
+                .openRawResource(R.raw.quran_muqathaat);
+
+        final Scanner scanner = new Scanner(inputStream);
+        final SparseArray<SparseArray<String>> surahMap = new SparseArray<>();
+
+        while (scanner.hasNextLine()){
+            final String[] line = scanner.nextLine().split("\\|");
+            final int surahNo = Integer.parseInt(line[0]);
+            final int ayahNo = Integer.parseInt(line[2]);
+            final String ayah = line[3];
+
+            final SparseArray<String> ayahMap = surahMap.get(surahNo, new SparseArray<String>());
+            ayahMap.put(ayahNo, ayah);
+            surahMap.put(surahNo, ayahMap);
+        }
+
+        inputStream.close();
+        scanner.close();
+        return surahMap;
     }
 
 }

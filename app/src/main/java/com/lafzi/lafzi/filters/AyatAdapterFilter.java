@@ -3,6 +3,7 @@ package com.lafzi.lafzi.filters;
 import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.Filter;
 import android.widget.TextView;
@@ -28,7 +29,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by alfat on 21/04/17.
@@ -61,7 +61,7 @@ public class AyatAdapterFilter extends Filter {
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
 
-        Map<Integer, FoundDocument> matchedDocs;
+        SparseArray<FoundDocument> matchedDocs;
         double threshold = 0.9;
         final boolean isVocal = new Preferences(context).isVocal();
 
@@ -86,7 +86,7 @@ public class AyatAdapterFilter extends Filter {
         if (matchedDocs.size() > 0){
 
             HighlightUtil.highlightPositions(matchedDocs, isVocal, ayatQuranDao, posisiDao);
-            matchedDocsValue = new ArrayList<>(matchedDocs.values());
+            matchedDocsValue = getMatchedDocsValues(matchedDocs);
 
             Collections.sort(matchedDocsValue, new Comparator<FoundDocument>() {
                 @Override
@@ -107,6 +107,16 @@ public class AyatAdapterFilter extends Filter {
         results.count = ayatQurans.size();
 
         return results;
+    }
+
+    private List<FoundDocument> getMatchedDocsValues(final SparseArray<FoundDocument> matchedDocs){
+        final List<FoundDocument> values = new LinkedList<>();
+        for (int i = 0; i < matchedDocs.size(); i++){
+            final int key = matchedDocs.keyAt(i);
+            values.add(matchedDocs.get(key));
+        }
+
+        return values;
     }
 
     @Override
