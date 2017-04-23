@@ -17,6 +17,7 @@ public class AyatQuran implements BaseColumns {
     public static final String AYAT_NO = "ayat_no";
     public static final String AYAT_ARABIC = "ayat_arabic";
     public static final String AYAT_INDONESIAN = "ayat_indonesian";
+    public static final String AYAT_MUQATHAAT = "ayat_muqathaat";
 
     private final int id;
     private final int surahNo;
@@ -24,6 +25,7 @@ public class AyatQuran implements BaseColumns {
     private final int ayatNo;
     private final String ayatArabic;
     private final String ayatIndonesian;
+    private final String ayatMuqathaat;
 
     public List<HighlightPosition> highlightPositions = new ArrayList<>();
     public double relevance;
@@ -33,13 +35,15 @@ public class AyatQuran implements BaseColumns {
                      String surahName,
                      int ayatNo,
                      String ayatArabic,
-                     String ayatIndonesian) {
+                     String ayatIndonesian,
+                     String ayatMuqathaat) {
         this.id = id;
         this.surahNo = surahNo;
         this.surahName = surahName;
         this.ayatNo = ayatNo;
         this.ayatArabic = ayatArabic;
         this.ayatIndonesian = ayatIndonesian;
+        this.ayatMuqathaat = ayatMuqathaat;
     }
 
     public int getId() {
@@ -64,5 +68,9 @@ public class AyatQuran implements BaseColumns {
 
     public String getAyatIndonesian() {
         return ayatIndonesian;
+    }
+
+    public String getAyatMuqathaat() {
+        return ayatMuqathaat;
     }
 }

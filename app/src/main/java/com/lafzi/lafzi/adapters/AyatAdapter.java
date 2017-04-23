@@ -58,11 +58,18 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
         suratAyat.setText(suratAndAyatText);
         indoTextView.setText(ayat.getAyatIndonesian());
 
-        final Spannable wordToSpan = new SpannableString(ayat.getAyatArabic());
+        final String ayatArabic = ayat.getAyatMuqathaat() == null ?
+                ayat.getAyatArabic()  : ayat.getAyatMuqathaat();
+
+        final Spannable wordToSpan = new SpannableString(ayatArabic);
         for (HighlightPosition hp : ayat.highlightPositions){
+
+            int end = hp.getEndHighlight();
+            if (hp.getEndHighlight() > ayatArabic.length() - 1)
+                end = ayatArabic.length() - 1;
             wordToSpan.setSpan(new BackgroundColorSpan(Color.YELLOW),
                     hp.getStartHighlight(),
-                    hp.getEndHighlight() + 1,
+                    end + 1,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         arabicTextView.setText(wordToSpan);
@@ -75,6 +82,7 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
 
         return convertView;
     }
+
 
     @NonNull
     @Override

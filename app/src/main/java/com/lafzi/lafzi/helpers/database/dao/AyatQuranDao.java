@@ -2,14 +2,9 @@ package com.lafzi.lafzi.helpers.database.dao;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.text.TextUtils;
 
 import com.lafzi.lafzi.models.AyatQuran;
 import com.lafzi.lafzi.models.builder.AyatQuranBuilder;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by alfat on 21/04/17.
@@ -31,7 +26,8 @@ public class AyatQuranDao {
                 AyatQuran.SURAH_NAME,
                 AyatQuran.AYAT_NO,
                 AyatQuran.AYAT_ARABIC,
-                AyatQuran.AYAT_INDONESIAN
+                AyatQuran.AYAT_INDONESIAN,
+                AyatQuran.AYAT_MUQATHAAT,
         };
 
         final String selection = AyatQuran._ID + " = ?";
@@ -44,43 +40,6 @@ public class AyatQuranDao {
         }
 
         return null;
-    }
-
-    public List<AyatQuran> getAyatQurans(final List<Integer> ids){
-
-        final String[] projection = {
-                AyatQuran._ID,
-                AyatQuran.SURAH_NO,
-                AyatQuran.SURAH_NAME,
-                AyatQuran.AYAT_NO,
-                AyatQuran.AYAT_ARABIC,
-                AyatQuran.AYAT_INDONESIAN
-        };
-
-        final String selection = AyatQuran._ID + " IN (" +
-                TextUtils.join(",", Collections.nCopies(ids.size(), "?")) + ")";
-        final String[] selectionArgs = new String[ids.size()];
-        int i = 0;
-        for (Integer id : ids){
-            selectionArgs[i] = Integer.toString(id);
-            i++;
-        }
-
-        String order = "";
-        i = 0;
-        for (Integer id : ids){
-            order += AyatQuran._ID + " = " + id + " DESC";
-            if (i < ids.size() - 1)
-                order += ", ";
-            i++;
-        }
-
-        final Cursor cursor = db.query(AyatQuran.TABLE_NAME, projection, selection, selectionArgs, null, null, order);
-        final List<AyatQuran> results = new ArrayList<>();
-        while (cursor.moveToNext())
-            results.add(readAyatQuranFromCursor(cursor));
-
-        return results;
     }
 
     private AyatQuran readAyatQuranFromCursor(final Cursor cursor){
@@ -109,6 +68,10 @@ public class AyatQuranDao {
         aqBuilder.setAyatIndonesian(cursor
                 .getString(cursor
                         .getColumnIndexOrThrow(AyatQuran.AYAT_INDONESIAN)));
+
+        aqBuilder.setAyatMuqathaat(cursor
+                .getString(cursor
+                        .getColumnIndexOrThrow(AyatQuran.AYAT_MUQATHAAT)));
 
         return aqBuilder.build();
     }
