@@ -17,6 +17,8 @@ import java.util.Map;
 
 public class SearchUtil {
 
+    private SearchUtil(){}
+
     public static final Map<Integer, FoundDocument> search(final String queryFinal,
                                                            final boolean isVocal,
                                                            final boolean orderedByScore,
@@ -26,16 +28,14 @@ public class SearchUtil {
 
         final Map<Integer, FoundDocument> matchedDocs = new HashMap<>();
 
-        // transform query
-        final String transformedQuery = QueryUtil.normalizeQuery(queryFinal.toString(), true);
         // get trigram with frequency and positions
-        final Map<String, FreqAndPosition> trigrams = TrigramUtil.extractTrigramFrequencyAndPosition(transformedQuery);
+        final Map<String, FreqAndPosition> trigrams = TrigramUtil.extractTrigramFrequencyAndPosition(queryFinal);
 
         for (final Map.Entry<String, FreqAndPosition> trigram : trigrams.entrySet()){
             final String term = trigram.getKey();
 
             // index from SQLite
-            final List<Index> indices = indexDao.getIndexByTrigramTerm(term, true);
+            final List<Index> indices = indexDao.getIndexByTrigramTerm(term, isVocal);
             for (Index index : indices){
                 FoundDocument document = new FoundDocument();
 
@@ -100,7 +100,7 @@ public class SearchUtil {
                         foundDocument.getMatchedTrigramsCount()
                 );
                 foundDocument.setScore(
-                        foundDocument.getMatchedTrigramsCount()
+                        foundDocument.getMatchedTermsCountScore()
                 );
 
                 entry.setValue(foundDocument);
@@ -146,7 +146,7 @@ public class SearchUtil {
         }
 
         maxLength++;
-        return sequence.subList(maxStart, maxStart + maxLength - 1);
+        return sequence.subList(maxStart, maxStart + maxLength);
     }
 
     private static double reciprocalDiffAverage(final List<Integer> lis){

@@ -1,23 +1,32 @@
 package com.lafzi.lafzi.filters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.View;
 import android.widget.Filter;
+import android.widget.TextView;
 
+import com.lafzi.lafzi.R;
 import com.lafzi.lafzi.adapters.AyatAdapter;
 import com.lafzi.lafzi.helpers.database.DbHelper;
 import com.lafzi.lafzi.helpers.database.dao.AyatQuranDao;
 import com.lafzi.lafzi.helpers.database.dao.AyatQuranDaoFactory;
 import com.lafzi.lafzi.helpers.database.dao.IndexDao;
 import com.lafzi.lafzi.helpers.database.dao.IndexDaoFactory;
+import com.lafzi.lafzi.helpers.database.dao.MappingPosisiDao;
+import com.lafzi.lafzi.helpers.database.dao.MappingPosisiDaoFactory;
+import com.lafzi.lafzi.helpers.preferences.Preferences;
 import com.lafzi.lafzi.models.AyatQuran;
 import com.lafzi.lafzi.models.FoundDocument;
+import com.lafzi.lafzi.utils.HighlightUtil;
+import com.lafzi.lafzi.utils.QueryUtil;
 import com.lafzi.lafzi.utils.SearchUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +38,13 @@ public class AyatAdapterFilter extends Filter {
 
     private final AyatQuranDao ayatQuranDao;
     private final IndexDao indexDao;
-    private AyatAdapter adapter;
+    private final MappingPosisiDao posisiDao;
+
+    private final Context context;
+    private final AyatAdapter adapter;
+
+    private int maxScore;
+
 
     public AyatAdapterFilter(final Context context, final AyatAdapter adapter){
         final DbHelper dbHelper = new DbHelper(context);
@@ -37,20 +52,26 @@ public class AyatAdapterFilter extends Filter {
 
         ayatQuranDao = AyatQuranDaoFactory.createAyatDao(db);
         indexDao = IndexDaoFactory.createIndexDao(db);
+        posisiDao = MappingPosisiDaoFactory.createMappingPosisiDao(db);
 
         this.adapter = adapter;
+        this.context = context;
     }
 
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
 
-        Map<Integer, FoundDocument> matchedDocs = new HashMap<>();
+        Map<Integer, FoundDocument> matchedDocs;
         double threshold = 0.9;
+        final boolean isVocal = new Preferences(context).isVocal();
+
+        final String queryFinal = QueryUtil.normalizeQuery(constraint.toString(), isVocal);
+        maxScore = queryFinal.length() - 2;
 
         do {
             matchedDocs = SearchUtil.search(
-                    constraint.toString(),
-                    false,
+                    queryFinal,
+                    isVocal,
                     true,
                     true,
                     threshold,
@@ -59,11 +80,14 @@ public class AyatAdapterFilter extends Filter {
         } while ((matchedDocs.size() < 1) && (threshold >= 0.7));
 
 
-        List<FoundDocument> matchedDocsValue = new ArrayList<>();
+        List<FoundDocument> matchedDocsValue;
         List<AyatQuran> ayatQurans = new ArrayList<>();
 
         if (matchedDocs.size() > 0){
+
+            HighlightUtil.highlightPositions(matchedDocs, isVocal, ayatQuranDao, posisiDao);
             matchedDocsValue = new ArrayList<>(matchedDocs.values());
+
             Collections.sort(matchedDocsValue, new Comparator<FoundDocument>() {
                 @Override
                 public int compare(FoundDocument o1, FoundDocument o2) {
@@ -75,7 +99,7 @@ public class AyatAdapterFilter extends Filter {
                 }
             });
 
-            ayatQurans = displayMatchedAyats(matchedDocsValue);
+            ayatQurans = getMatchedAyats(matchedDocsValue);
         }
 
         final FilterResults results = new FilterResults();
@@ -87,20 +111,31 @@ public class AyatAdapterFilter extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        if (((List)results.values).size() > 0) {
-            adapter.clear();
-            final List<AyatQuran> supportedTypes = new ArrayList<>((List<AyatQuran>)results.values);
-            adapter.addAll((supportedTypes));
+        adapter.clear();
+        final TextView resultCounter = (TextView)((Activity) context).findViewById(R.id.result_counter);
+        if (results.count > 0) {
+            adapter.addAll((List<AyatQuran>)results.values);
             adapter.notifyDataSetChanged();
-        }
+
+            resultCounter.setText(context.getString(R.string.search_result_count, results.count));
+            resultCounter.setVisibility(View.VISIBLE);
+        } else
+            resultCounter.setVisibility(View.GONE);
     }
 
-    private List<AyatQuran> displayMatchedAyats(final List<FoundDocument> foundDocuments){
+    private List<AyatQuran> getMatchedAyats(final List<FoundDocument> foundDocuments){
 
-        final List<Integer> ids = new ArrayList();
+        final List<AyatQuran> ayatQurans = new LinkedList<>();
         for (FoundDocument document : foundDocuments){
-            ids.add(document.getAyatQuranId());
+            final double relevance = Math.min(Math.floor(document.getScore() / maxScore * 100), 100);
+
+            final AyatQuran ayatQuran = document.getAyatQuran();
+            ayatQuran.relevance = relevance;
+            ayatQuran.highlightPositions = document.getHighlightPosition();
+
+            ayatQurans.add(ayatQuran);
         }
-        return ayatQuranDao.getAyatQurans(ids);
+
+        return ayatQurans;
     }
 }

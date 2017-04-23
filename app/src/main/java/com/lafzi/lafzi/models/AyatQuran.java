@@ -2,6 +2,9 @@ package com.lafzi.lafzi.models;
 
 import android.provider.BaseColumns;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by alfat on 19/04/17.
  */
@@ -21,6 +24,9 @@ public class AyatQuran implements BaseColumns {
     private final int ayatNo;
     private final String ayatArabic;
     private final String ayatIndonesian;
+
+    public List<HighlightPosition> highlightPositions = new ArrayList<>();
+    public double relevance;
 
     public AyatQuran(int id,
                      int surahNo,

@@ -17,7 +17,8 @@ public class FoundDocument {
     private double score;
     private Map<String, List<Integer>> matchedTerms;
     private List<Integer> lis;
-    private List<Integer> highlightPosition;
+    private List<HighlightPosition> highlightPosition;
+    private AyatQuran ayatQuran;
 
     public int getAyatQuranId() {
         return ayatQuranId;
@@ -51,8 +52,12 @@ public class FoundDocument {
         return lis;
     }
 
-    public List<Integer> getHighlightPosition() {
+    public List<HighlightPosition> getHighlightPosition() {
         return highlightPosition;
+    }
+
+    public AyatQuran getAyatQuran() {
+        return ayatQuran;
     }
 
     public void setAyatQuranId(int ayatQuranId) {
@@ -87,7 +92,11 @@ public class FoundDocument {
         this.lis = lis;
     }
 
-    public void setHighlightPosition(List<Integer> highlightPosition) {
+    public void setHighlightPosition(List<HighlightPosition> highlightPosition) {
         this.highlightPosition = highlightPosition;
+    }
+
+    public void setAyatQuran(AyatQuran ayatQuran) {
+        this.ayatQuran = ayatQuran;
     }
 }
