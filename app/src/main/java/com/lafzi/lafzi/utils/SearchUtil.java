@@ -1,5 +1,7 @@
 package com.lafzi.lafzi.utils;
 
+import android.util.SparseArray;
+
 import com.lafzi.lafzi.helpers.database.dao.IndexDao;
 import com.lafzi.lafzi.models.FoundDocument;
 import com.lafzi.lafzi.models.FreqAndPosition;
@@ -19,14 +21,14 @@ public class SearchUtil {
 
     private SearchUtil(){}
 
-    public static final Map<Integer, FoundDocument> search(final String queryFinal,
+    public static final SparseArray<FoundDocument> search(final String queryFinal,
                                                            final boolean isVocal,
                                                            final boolean orderedByScore,
                                                            final boolean filtered,
                                                            final double filterThreshold,
                                                            final IndexDao indexDao){
 
-        final Map<Integer, FoundDocument> matchedDocs = new HashMap<>();
+        final SparseArray<FoundDocument> matchedDocs = new SparseArray<>();
 
         // get trigram with frequency and positions
         final Map<String, FreqAndPosition> trigrams = TrigramUtil.extractTrigramFrequencyAndPosition(queryFinal);
@@ -40,7 +42,7 @@ public class SearchUtil {
                 FoundDocument document = new FoundDocument();
 
                 // appearance counts
-                if (matchedDocs.containsKey(index.getAyatQuranId())){
+                if (matchedDocs.get(index.getAyatQuranId(), null) != null){
                     document = matchedDocs.get(index.getAyatQuranId());
                     int matchedTrigrams = document.getMatchedTrigramsCount();
                     final int queryTrigramFreq = trigram.getValue().getFreq();
@@ -65,13 +67,15 @@ public class SearchUtil {
         }
 
         // if filtered, only take docs match above threshold
-        final Map<Integer, FoundDocument> filteredDocs = new HashMap<>();
+        final SparseArray<FoundDocument> filteredDocs = new SparseArray<>();
         final double minScore = filterThreshold * (queryFinal.length() - 2);
 
         // scoring based on match trigrams and contiguous
         if (orderedByScore){
-            for (final Map.Entry<Integer, FoundDocument> entry : matchedDocs.entrySet()){
-                final FoundDocument foundDocument = entry.getValue();
+            for (int i = 0; i < matchedDocs.size(); i++){
+                final int key = matchedDocs.keyAt(i);
+
+                final FoundDocument foundDocument = matchedDocs.get(key);
                 foundDocument.setMatchedTermsCountScore(
                         foundDocument.getMatchedTrigramsCount()
                 );
@@ -90,12 +94,14 @@ public class SearchUtil {
                 );
 
                 if (filtered && (foundDocument.getMatchedTrigramsCount() >= minScore)){
-                    filteredDocs.put(entry.getKey(), foundDocument);
+                    filteredDocs.put(key, foundDocument);
                 }
             }
         } else {
-            for (final Map.Entry<Integer, FoundDocument> entry : matchedDocs.entrySet()){
-                final FoundDocument foundDocument = entry.getValue();
+            for (int i = 0; i < matchedDocs.size(); i++){
+                final int key = matchedDocs.keyAt(i);
+
+                final FoundDocument foundDocument = matchedDocs.get(key);
                 foundDocument.setMatchedTermsCountScore(
                         foundDocument.getMatchedTrigramsCount()
                 );
@@ -103,10 +109,10 @@ public class SearchUtil {
                         foundDocument.getMatchedTermsCountScore()
                 );
 
-                entry.setValue(foundDocument);
+                matchedDocs.put(key, foundDocument);
 
                 if (filtered && (foundDocument.getMatchedTrigramsCount() >= minScore)){
-                    filteredDocs.put(entry.getKey(), foundDocument);
+                    filteredDocs.put(key, foundDocument);
                 }
             }
         }

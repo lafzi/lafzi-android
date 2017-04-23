@@ -4,6 +4,7 @@ import com.lafzi.lafzi.models.FreqAndPosition;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ public class TrigramUtil {
                 positions.add(i);
                 newFp = new FreqAndPosition(freq + 1, positions);
             } else {
-                newFp = new FreqAndPosition(1, Collections.singletonList(i));
+                newFp = new FreqAndPosition(1, new LinkedList<>(Collections.singletonList(i)));
             }
             results.put(trigram, newFp);
         }

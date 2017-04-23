@@ -11,6 +11,7 @@
     <string name="query_less_than_3">Lafaz dicari minimal 3 karakter</string>
     <string name="search_result_count">Hasil Pencarian (%1$d hasil)</string>
     <string name="building_index">Building Index...</string>
+    <string name="copied">Text copied</string>
 
     <string name="database_updated">database_updates</string>
     <string name="isvocal">isvocal</string>
@@ -23,7 +24,9 @@
         \u2022 innaloha ma\'a shoobiriin\n
         \u2022 laa ilaaha illallaah\n
         \u2022 kun fayakuun
-        \n\nTips: Gunakan spasi untuk pemisah kata agar hasil lebih akurat
+        \n\nTips:
+        \n\nGunakan spasi untuk pemisah kata agar hasil lebih akurat
+        \n\nTahan dan click hasil pencarian untuk meng-copy isi teks
     </string>
 
     <!-- SettingActivity -->
