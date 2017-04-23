@@ -7,6 +7,38 @@
     <string name="search_placeholder">Ketikkan lafaz yang dicari</string>
     <string name="surah">Surat</string>
     <string name="ayah">Ayat</string>
-    <string name="empty_result">Tidak ada hasil. Pastikan lafaz yang dicari lebih dari 3 karakter dan ada pada Al-Quran</string>
+    <string name="empty_result">Tidak ada hasil. Pastikan lafaz yang dicari ada pada Al-Quran</string>
     <string name="query_less_than_3">Lafaz dicari minimal 3 karakter</string>
+    <string name="search_result_count">Hasil Pencarian (%1$d hasil)</string>
+    <string name="building_index">Building Index...</string>
+
+    <string name="database_updated">database_updates</string>
+    <string name="isvocal">isvocal</string>
+
+    <!-- HelpActivity -->
+    <string name="help_teks">
+        Ketikkan potongan ayat atau lafaz dalam Al-Quran (tidak harus benar cara penulisannya), contoh:
+        \n\n
+        \u2022 alhamdulillahi rabbil-\'alamin\n
+        \u2022 innaloha ma\'a shoobiriin\n
+        \u2022 laa ilaaha illallaah\n
+        \u2022 kun fayakuun
+        \n\nTips: Gunakan spasi untuk pemisah kata agar hasil lebih akurat
+    </string>
+
+    <!-- SettingActivity -->
+    <string name="is_vocal_title">Perhitungkan huruf vokal</string>
+    <string name="is_vocal_summary">
+        Jika nonaktif, huruf vokal (AIUEO) tidak akan diperhitungkan
+        dalam pencarian. Contohnya, pencarian \"munafiqun\" akan
+        menyertakan juga \"munafiqin\"
+    </string>
+
+    <!-- AboutActivity -->
+    <string name="about_teks">
+        Lafzi adalah aplikasi pencari lafaz pada Al-Quran. Aplikasi ini dibuat untuk memudahkan pencarian ayat dengan lafaz tertentu pada Al-Quran hanya dengan aksara Latin biasa berdasarkan pelafalan pembicara bahasa Indonesia, tanpa perlu mengetikkannya dalam aksara Arab.
+        \n\nLafzi untuk Android ini adalah aplikasi open source yang dibuat oleh Alfat Saputra Harun, didasarkan pada hasil penelitian skripsi Departemen Ilmu Komputer, Institut Pertanian Bogor oleh Muhammad Abrar Istiadi, S.Kom dengan pembimbing Ahmad Ridha, S.Kom MS.
+        \n\nSilahkan kunjungi https://github.com/lafzi Untuk melihat source code Lafzi.
+    </string>
+
 </resources>

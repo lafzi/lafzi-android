@@ -3,15 +3,23 @@
     android:id="@+id/activity_main"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_dots"
-    android:orientation="horizontal">
+    android:background="@drawable/bg_dots">
 
     <android.support.v7.widget.SearchView
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
         android:background="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:id="@+id/result_counter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
+        android:layout_below="@+id/search"/>
 
     <ListView
         android:id="@+id/list_view"
@@ -19,13 +27,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/search"/>
+        android:layout_below="@+id/result_counter"/>
 
     <TextView
         android:id="@+id/empty_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:text="@string/empty_result"
         android:visibility="gone"/>
 </RelativeLayout>

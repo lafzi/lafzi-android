@@ -1,16 +1,22 @@
 package com.lafzi.lafzi.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.lafzi.lafzi.R;
 import com.lafzi.lafzi.filters.AyatAdapterFilter;
 import com.lafzi.lafzi.models.AyatQuran;
+import com.lafzi.lafzi.models.HighlightPosition;
 
 import java.util.LinkedList;
 
@@ -40,6 +46,8 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
         final TextView suratAyat = (TextView) convertView.findViewById(R.id.surat_ayat);
         final TextView arabicTextView = (TextView) convertView.findViewById(R.id.ayat_arab);
         final TextView indoTextView = (TextView) convertView.findViewById(R.id.ayat_indo);
+        final ProgressBar bar = (ProgressBar) convertView.findViewById(R.id.percentage_bar);
+        final TextView percentageText = (TextView) convertView.findViewById(R.id.percentage_text);
 
         noUrut.setText("[" + Integer.toString(position + 1) + "]");
 
@@ -48,8 +56,20 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
         final String suratAndAyatText = surah + " " + ayat.getSurahName() + " (" + ayat.getSurahNo() + ") " + ayah + " " + ayat.getAyatNo();
 
         suratAyat.setText(suratAndAyatText);
-        arabicTextView.setText(ayat.getAyatArabic());
         indoTextView.setText(ayat.getAyatIndonesian());
+
+        final Spannable wordToSpan = new SpannableString(ayat.getAyatArabic());
+        for (HighlightPosition hp : ayat.highlightPositions){
+            wordToSpan.setSpan(new BackgroundColorSpan(Color.YELLOW),
+                    hp.getStartHighlight(),
+                    hp.getEndHighlight() + 1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        arabicTextView.setText(wordToSpan);
+
+        int relevance = (int) Math.round(ayat.relevance);
+        bar.setProgress(relevance);
+        percentageText.setText(String.format("%s%%", Integer.toString(relevance)));
 
         notifyDataSetChanged();
 
