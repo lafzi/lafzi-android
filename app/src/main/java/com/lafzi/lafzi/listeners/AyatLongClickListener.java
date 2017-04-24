@@ -1,4 +1,4 @@
-package com.lafzi.lafzi.clickListeners;
+package com.lafzi.lafzi.listeners;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;

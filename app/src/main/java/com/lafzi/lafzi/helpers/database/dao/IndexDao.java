@@ -42,7 +42,7 @@ public class IndexDao {
         while (cursor.moveToNext()){
             results.add(readIndexFromCursor(cursor));
         }
-
+        cursor.close();
         return results;
     }
 

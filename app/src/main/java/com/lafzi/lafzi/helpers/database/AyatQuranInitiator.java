@@ -4,13 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.lafzi.lafzi.R;
 import com.lafzi.lafzi.models.AyatQuran;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -37,7 +38,7 @@ public class AyatQuranInitiator {
 
     public static void insertionTableAyatQuran(final Context context, final SQLiteDatabase db) throws IOException {
 
-        final SparseArray<SparseArray<String>> muqathaatMap = createMuqathaatMap(context);
+        final Map<Integer, Map<Integer, String>> muqathaatMap = createMuqathaatMap(context);
 
         final InputStream inputStreamQuranText = context
                 .getResources()
@@ -69,9 +70,9 @@ public class AyatQuranInitiator {
             final int surahNo = Integer.parseInt(quranText[0]);
             final int ayahNo = Integer.parseInt(quranText[2]);
 
-            if (muqathaatMap
-                    .get(surahNo, new SparseArray<String>())
-                    .get(ayahNo, null) != null){
+            if (muqathaatMap.containsKey(surahNo)
+                    && muqathaatMap.get(surahNo).containsKey(ayahNo)){
+
                 contentValues.put(
                         AyatQuran.AYAT_MUQATHAAT,
                         muqathaatMap.get(surahNo).get(ayahNo)
@@ -92,14 +93,14 @@ public class AyatQuranInitiator {
         muqathaatMap.clear();
     }
 
-    private static SparseArray<SparseArray<String>> createMuqathaatMap(final Context context) throws IOException {
+    private static Map<Integer, Map<Integer, String>> createMuqathaatMap(final Context context) throws IOException {
 
         final InputStream inputStream = context
                 .getResources()
                 .openRawResource(R.raw.quran_muqathaat);
 
         final Scanner scanner = new Scanner(inputStream);
-        final SparseArray<SparseArray<String>> surahMap = new SparseArray<>();
+        final Map<Integer, Map<Integer, String>> surahMap = new HashMap<>();
 
         while (scanner.hasNextLine()){
             final String[] line = scanner.nextLine().split("\\|");
@@ -107,7 +108,8 @@ public class AyatQuranInitiator {
             final int ayahNo = Integer.parseInt(line[2]);
             final String ayah = line[3];
 
-            final SparseArray<String> ayahMap = surahMap.get(surahNo, new SparseArray<String>());
+            final Map<Integer, String> ayahMap = surahMap.containsKey(surahNo) ?
+                    surahMap.get(surahNo) : new HashMap<Integer, String>();
             ayahMap.put(ayahNo, ayah);
             surahMap.put(surahNo, ayahMap);
         }

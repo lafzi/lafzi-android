@@ -36,7 +36,12 @@ public class AyatQuranDao {
         final Cursor cursor = db.query(AyatQuran.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
         if (cursor.moveToNext()){
-            return readAyatQuranFromCursor(cursor);
+            try {
+                return readAyatQuranFromCursor(cursor);
+            } finally {
+                cursor.close();
+            }
+
         }
 
         return null;
