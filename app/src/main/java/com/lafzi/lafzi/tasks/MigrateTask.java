@@ -23,7 +23,7 @@ public class MigrateTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        new DbHelper(context).getWritableDatabase();
+        DbHelper.getInstance(context).getWritableDatabase();
         return null;
     }
 

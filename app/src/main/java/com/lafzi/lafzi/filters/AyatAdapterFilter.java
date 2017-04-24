@@ -1,9 +1,9 @@
 package com.lafzi.lafzi.filters;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.SparseArray;
 import android.view.View;
 import android.widget.Filter;
 import android.widget.TextView;
@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by alfat on 21/04/17.
@@ -44,10 +45,10 @@ public class AyatAdapterFilter extends Filter {
     private final AyatAdapter adapter;
 
     private int maxScore;
-
+    private ProgressDialog pd;
 
     public AyatAdapterFilter(final Context context, final AyatAdapter adapter){
-        final DbHelper dbHelper = new DbHelper(context);
+        final DbHelper dbHelper = DbHelper.getInstance(context);
         final SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         ayatQuranDao = AyatQuranDaoFactory.createAyatDao(db);
@@ -61,7 +62,7 @@ public class AyatAdapterFilter extends Filter {
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
 
-        SparseArray<FoundDocument> matchedDocs;
+        Map<Integer, FoundDocument> matchedDocs;
         double threshold = 0.9;
         final boolean isVocal = new Preferences(context).isVocal();
 
@@ -109,11 +110,10 @@ public class AyatAdapterFilter extends Filter {
         return results;
     }
 
-    private List<FoundDocument> getMatchedDocsValues(final SparseArray<FoundDocument> matchedDocs){
+    private List<FoundDocument> getMatchedDocsValues(final Map<Integer, FoundDocument> matchedDocs){
         final List<FoundDocument> values = new LinkedList<>();
-        for (int i = 0; i < matchedDocs.size(); i++){
-            final int key = matchedDocs.keyAt(i);
-            values.add(matchedDocs.get(key));
+        for (Map.Entry<Integer, FoundDocument> entry : matchedDocs.entrySet()){
+            values.add(entry.getValue());
         }
 
         return values;

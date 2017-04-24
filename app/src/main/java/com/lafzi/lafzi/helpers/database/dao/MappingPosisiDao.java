@@ -35,7 +35,12 @@ public class MappingPosisiDao {
         final Cursor cursor = db.query(tableName, projection, selection, selectionArgs, null, null, null);
 
         if (cursor.moveToNext()){
-            return readMappingPosisiFromCursor(cursor);
+            try {
+                return readMappingPosisiFromCursor(cursor);
+            } finally {
+                cursor.close();
+            }
+
         }
 
         return null;
