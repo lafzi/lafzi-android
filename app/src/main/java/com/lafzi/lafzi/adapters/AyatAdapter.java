@@ -19,6 +19,7 @@ import com.lafzi.lafzi.models.AyatQuran;
 import com.lafzi.lafzi.models.HighlightPosition;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by alfat on 19/04/17.
@@ -27,6 +28,8 @@ import java.util.LinkedList;
 public class AyatAdapter extends ArrayAdapter<AyatQuran> {
 
     private final AyatAdapterFilter mFilter;
+
+    private List<AyatQuran> datas;
 
     public AyatAdapter(Context context, LinkedList<AyatQuran> objects) {
         super(context, 0, objects);
@@ -37,26 +40,35 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        ViewHolder viewHolder;
+
         final AyatQuran ayat = getItem(position);
-        if (convertView == null)
+        if (convertView == null) {
+
+            viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(getContext())
                     .inflate(R.layout.ayat_layout, parent, false);
 
-        final TextView noUrut = (TextView) convertView.findViewById(R.id.no_urut);
-        final TextView suratAyat = (TextView) convertView.findViewById(R.id.surat_ayat);
-        final TextView arabicTextView = (TextView) convertView.findViewById(R.id.ayat_arab);
-        final TextView indoTextView = (TextView) convertView.findViewById(R.id.ayat_indo);
-        final ProgressBar bar = (ProgressBar) convertView.findViewById(R.id.percentage_bar);
-        final TextView percentageText = (TextView) convertView.findViewById(R.id.percentage_text);
+            viewHolder.noUrut = (TextView) convertView.findViewById(R.id.no_urut);
+            viewHolder.suratAyat = (TextView) convertView.findViewById(R.id.surat_ayat);
+            viewHolder.arabicTextView = (TextView) convertView.findViewById(R.id.ayat_arab);
+            viewHolder.indoTextView = (TextView) convertView.findViewById(R.id.ayat_indo);
+            viewHolder.progressBar = (ProgressBar) convertView.findViewById(R.id.percentage_bar);
+            viewHolder.percentageText = (TextView) convertView.findViewById(R.id.percentage_text);
 
-        noUrut.setText("[" + Integer.toString(position + 1) + "]");
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        viewHolder.noUrut.setText("[" + Integer.toString(position + 1) + "]");
 
         final String surah = getContext().getString(R.string.surah);
         final String ayah = getContext().getString(R.string.ayah);
         final String suratAndAyatText = surah + " " + ayat.getSurahName() + " (" + ayat.getSurahNo() + ") " + ayah + " " + ayat.getAyatNo();
 
-        suratAyat.setText(suratAndAyatText);
-        indoTextView.setText(ayat.getAyatIndonesian());
+        viewHolder.suratAyat.setText(suratAndAyatText);
+        viewHolder.indoTextView.setText(ayat.getAyatIndonesian());
 
         final String ayatArabic = ayat.getAyatMuqathaat() == null ?
                 ayat.getAyatArabic()  : ayat.getAyatMuqathaat();
@@ -72,13 +84,11 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
                     end + 1,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        arabicTextView.setText(wordToSpan);
+        viewHolder.arabicTextView.setText(wordToSpan);
 
         int relevance = (int) Math.round(ayat.relevance);
-        bar.setProgress(relevance);
-        percentageText.setText(String.format("%s%%", Integer.toString(relevance)));
-
-        notifyDataSetChanged();
+        viewHolder.progressBar.setProgress(relevance);
+        viewHolder.percentageText.setText(String.format("%s%%", Integer.toString(relevance)));
 
         return convertView;
     }
@@ -88,5 +98,18 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
     @Override
     public AyatAdapterFilter getFilter() {
         return mFilter;
+    }
+
+    private static class ViewHolder{
+        private TextView noUrut;
+        private TextView suratAyat;
+        private TextView arabicTextView;
+        private TextView indoTextView;
+        private ProgressBar progressBar;
+        private TextView percentageText;
+    }
+
+    public void assignDatas(List<AyatQuran> results){
+        datas = results;
     }
 }

@@ -1,18 +1,20 @@
 package com.lafzi.lafzi.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import com.lafzi.lafzi.R;
 import com.lafzi.lafzi.adapters.AyatAdapter;
-import com.lafzi.lafzi.clickListeners.AyatLongClickListener;
+import com.lafzi.lafzi.listeners.AyatLongClickListener;
+import com.lafzi.lafzi.listeners.AyatQuranQueryListeners;
 import com.lafzi.lafzi.models.AyatQuran;
-import com.lafzi.lafzi.queryListeners.AyatQuranQueryListeners;
 
 import java.util.LinkedList;
 
@@ -67,12 +69,33 @@ public class MainActivity extends AppCompatActivity {
         searchView.setIconified(false);
 
         final AyatAdapter ayatAdapter = new AyatAdapter(this, new LinkedList<AyatQuran>());
+        final ProgressDialog pd = createProgressDialog();
+
+        //listView.setOnScrollListener();
+        searchView.setOnQueryTextListener(new AyatQuranQueryListeners(ayatAdapter, this, pd));
 
         final ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(ayatAdapter);
         listView.setEmptyView(findViewById(R.id.empty_result));
         listView.setOnItemLongClickListener(new AyatLongClickListener(this));
-        searchView.setOnQueryTextListener(new AyatQuranQueryListeners(ayatAdapter, getApplicationContext()));
+        listView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                pd.dismiss();
+            }
+        });
+
+    }
+
+    private ProgressDialog createProgressDialog(){
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.setIndeterminate(true);
+        pd.setProgressNumberFormat(null);
+        pd.setProgressPercentFormat(null);
+        pd.setMessage(getString(R.string.mencari));
+
+        return pd;
     }
 
 }

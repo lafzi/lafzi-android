@@ -1,7 +1,6 @@
 package com.lafzi.lafzi.utils;
 
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.lafzi.lafzi.helpers.database.dao.AyatQuranDao;
 import com.lafzi.lafzi.helpers.database.dao.MappingPosisiDao;
@@ -15,6 +14,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -25,15 +25,13 @@ public class HighlightUtil {
 
     private HighlightUtil(){}
 
-    public static void highlightPositions(final SparseArray<FoundDocument> matchedDocs,
+    public static void highlightPositions(final Map<Integer, FoundDocument> matchedDocs,
                                           final boolean isVocal,
                                           final AyatQuranDao quranDao,
                                           final MappingPosisiDao posisiDao){
 
-        for (int i = 0; i < matchedDocs.size(); i++){
-            final int key = matchedDocs.keyAt(i);
-
-            final FoundDocument doc = matchedDocs.get(key);
+        for (Map.Entry<Integer,  FoundDocument> entry : matchedDocs.entrySet()){
+            final FoundDocument doc = entry.getValue();
             final AyatQuran ayatQuran = quranDao.getAyatQuran(doc.getAyatQuranId());
 
             char[] docText = {};
@@ -82,7 +80,7 @@ public class HighlightUtil {
                     || docText[endPosition + 3] == ' ')
                 doc.setScore(doc.getScore() + 0.001);
 
-            matchedDocs.put(key, doc);
+            entry.setValue(doc);
         }
     }
 
