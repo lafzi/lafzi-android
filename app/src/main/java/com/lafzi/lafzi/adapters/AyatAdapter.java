@@ -2,6 +2,7 @@ package com.lafzi.lafzi.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -84,6 +85,9 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
                     end + 1,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
+
+        Typeface meQuran = Typeface.createFromAsset(getContext().getAssets(), "fonts/me_quran.ttf");
+        viewHolder.arabicTextView.setTypeface(meQuran);
         viewHolder.arabicTextView.setText(wordToSpan);
 
         int relevance = (int) Math.round(ayat.relevance);
