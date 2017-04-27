@@ -4,7 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_dots">
+    android:background="@color/appBackground">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/main_toolbar"
