@@ -54,8 +54,6 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
             viewHolder.suratAyat = (TextView) convertView.findViewById(R.id.surat_ayat);
             viewHolder.arabicTextView = (TextView) convertView.findViewById(R.id.ayat_arab);
             viewHolder.indoTextView = (TextView) convertView.findViewById(R.id.ayat_indo);
-            viewHolder.progressBar = (ProgressBar) convertView.findViewById(R.id.percentage_bar);
-            viewHolder.percentageText = (TextView) convertView.findViewById(R.id.percentage_text);
 
             convertView.setTag(viewHolder);
         } else {
@@ -90,10 +88,6 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
         viewHolder.arabicTextView.setTypeface(meQuran);
         viewHolder.arabicTextView.setText(wordToSpan);
 
-        int relevance = (int) Math.round(ayat.relevance);
-        viewHolder.progressBar.setProgress(relevance);
-        viewHolder.percentageText.setText(String.format("%s%%", Integer.toString(relevance)));
-
         return convertView;
     }
 
@@ -109,8 +103,6 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
         private TextView suratAyat;
         private TextView arabicTextView;
         private TextView indoTextView;
-        private ProgressBar progressBar;
-        private TextView percentageText;
     }
 
     public void assignDatas(List<AyatQuran> results){
