@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setView(){
         final SearchView searchView = (SearchView) findViewById(R.id.search);
-        searchView.setQueryHint(getString(R.string.search_placeholder));
-        searchView.setIconified(false);
 
         final AyatAdapter ayatAdapter = new AyatAdapter(this, new LinkedList<AyatQuran>());
         final ProgressDialog pd = createProgressDialog();

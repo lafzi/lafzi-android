@@ -4,7 +4,7 @@
     <string name="more">More</string>
     <string name="pengaturan">Pengaturan</string>
     <string name="about">Tentang Lafzi</string>
-    <string name="search_placeholder">Ketikkan lafaz yang dicari</string>
+    <string name="search_placeholder">Ketikkan lafadz yang dicari</string>
     <string name="surah">Surat</string>
     <string name="ayah">Ayat</string>
     <string name="empty_result">Tidak ada hasil. Pastikan lafaz yang dicari ada pada Al-Quran</string>

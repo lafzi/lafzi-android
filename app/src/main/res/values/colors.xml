@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="appBackground">#ffffff</color>
+    <color name="searchInputBackground">#eeeeee</color>
 
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#a0a1a7</color>
