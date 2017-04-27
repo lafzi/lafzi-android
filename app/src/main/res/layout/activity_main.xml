@@ -31,11 +31,13 @@
         android:id="@+id/result_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:gravity="start"
+        android:paddingLeft="56dp"
+        android:paddingBottom="8dp"
         android:visibility="gone"
-        android:layout_below="@+id/search"/>
+        android:layout_below="@+id/search"
+        android:textColor="@color/textAccent"
+        android:background="@color/searchInputBackground"/>
 
     <ListView
         android:id="@+id/list_view"
