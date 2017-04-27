@@ -60,7 +60,7 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.noUrut.setText("[" + Integer.toString(position + 1) + "]");
+        viewHolder.noUrut.setText(Integer.toString(position + 1));
 
         final String surah = getContext().getString(R.string.surah);
         final String ayah = getContext().getString(R.string.ayah);
