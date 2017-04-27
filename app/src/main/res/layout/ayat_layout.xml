@@ -14,7 +14,9 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="#AAA"/>
 
         <TextView
             android:id="@+id/surat_ayat"
@@ -23,7 +25,9 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:textStyle="bold"
+            android:textSize="15sp"/>
     </LinearLayout>
 
     <TextView
