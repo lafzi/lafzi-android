@@ -2,6 +2,7 @@
 <resources>
     <color name="appBackground">#ffffff</color>
     <color name="searchInputBackground">#eeeeee</color>
+    <color name="textAccent">#803300</color>
 
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#a0a1a7</color>

@@ -9,7 +9,7 @@
     <string name="ayah">Ayat</string>
     <string name="empty_result">Tidak ada hasil. Pastikan lafaz yang dicari ada pada Al-Quran</string>
     <string name="query_less_than_3">Lafaz dicari minimal 3 karakter</string>
-    <string name="search_result_count">Hasil Pencarian (%1$d hasil)</string>
+    <string name="search_result_count">Ditemukan %1$d hasil</string>
     <string name="building_index">Memuat data..</string>
     <string name="copied">Text copied</string>
     <string name="mencari">Pencarian..</string>
