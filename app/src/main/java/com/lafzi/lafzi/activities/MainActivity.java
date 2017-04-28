@@ -2,7 +2,9 @@ package com.lafzi.lafzi.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +21,9 @@ import com.lafzi.lafzi.models.AyatQuran;
 
 import java.util.LinkedList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private boolean preferencesChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mainToolbar);
 
         ((SearchView) findViewById(R.id.search)).setSubmitButtonEnabled(true);
+
+        preferencesChanged = false;
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.registerOnSharedPreferenceChangeListener(this);
 
         setView();
     }
@@ -93,4 +101,19 @@ public class MainActivity extends AppCompatActivity {
         return pd;
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        preferencesChanged = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (preferencesChanged) {
+            // reload search
+            final SearchView searchView = (SearchView) findViewById(R.id.search);
+            searchView.setQuery(searchView.getQuery(), true);
+            preferencesChanged = false;
+        }
+    }
 }

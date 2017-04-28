@@ -43,6 +43,7 @@
     <string name="show_trans_summary">
         Tampilkan terjemahan bahasa Indonesia di hasil pencarian
     </string>
+    <string name="pref_saved">Pengaturan disimpan</string>
 
     <!-- AboutActivity -->
     <string name="about_teks">
