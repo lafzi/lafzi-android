@@ -16,6 +16,7 @@
 
     <string name="database_updated">database_updates</string>
     <string name="isvocal">isvocal</string>
+    <string name="showtrans">showtrans</string>
 
     <!-- HelpActivity -->
     <string name="help_teks">
@@ -37,6 +38,10 @@
         Jika nonaktif, huruf vokal (AIUEO) tidak akan diperhitungkan
         dalam pencarian. Contohnya, pencarian \"munafiqun\" akan
         menyertakan juga \"munafiqin\"
+    </string>
+    <string name="show_trans_title">Tampilkan terjemahan</string>
+    <string name="show_trans_summary">
+        Tampilkan terjemahan bahasa Indonesia di hasil pencarian
     </string>
 
     <!-- AboutActivity -->

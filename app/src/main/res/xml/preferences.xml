@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <CheckBoxPreference
         android:key="@string/isvocal"
         android:defaultValue="true"
         android:title="@string/is_vocal_title"
         android:summary="@string/is_vocal_summary"/>
+    <CheckBoxPreference
+        android:key="@string/showtrans"
+        android:defaultValue="true"
+        android:title="@string/show_trans_title"
+        android:summary="@string/show_trans_summary"/>
 </PreferenceScreen>
