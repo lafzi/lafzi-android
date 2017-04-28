@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
@@ -58,6 +59,12 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        if (position % 2 == 1) {
+            convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.searchResultStripe));
+        } else {
+            convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.appBackground));
         }
 
         viewHolder.noUrut.setText(Integer.toString(position + 1));
