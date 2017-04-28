@@ -6,26 +6,18 @@
     android:background="@color/appBackground">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/about_toolbar"
+        android:id="@+id/setting_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:title="@string/about"/>
+        app:title="@string/pengaturan"/>
 
-    <TextView
-        android:layout_below="@+id/about_toolbar"
-        android:id="@+id/about_text_view"
+    <FrameLayout
+        android:id="@+id/setting_content_frame"
+        android:layout_below="@id/setting_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:gravity="left"
-        android:autoLink="web"
-        android:text="@string/about_teks"/>
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
