@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mainToolbar);
 
+        ((SearchView) findViewById(R.id.search)).setSubmitButtonEnabled(true);
+
         setView();
     }
 
