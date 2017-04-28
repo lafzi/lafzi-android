@@ -25,6 +25,7 @@
         app:iconifiedByDefault="false"
         app:queryHint="@string/search_placeholder"
         app:queryBackground="@color/searchInputBackground"
+        app:submitBackground="@color/searchInputBackground"
         />
 
     <TextView
