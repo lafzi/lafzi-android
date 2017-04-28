@@ -40,6 +40,10 @@ public class Preferences {
         editor.commit();
     }
 
+    public boolean showTranslation() {
+        return sp.getBoolean(getString(R.string.showtrans), true);
+    }
+
     private String getString(final int resId){
         return context.getString(resId);
     }
