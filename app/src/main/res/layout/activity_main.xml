@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:background="@color/appBackground">
 
-    <include layout="@layout/main_toolbar_layout"/>
+    <include layout="@layout/main_toolbar_layout"
+        android:id="@+id/main_toolbar"/>
 
     <android.support.v7.widget.SearchView
         android:id="@+id/search"
