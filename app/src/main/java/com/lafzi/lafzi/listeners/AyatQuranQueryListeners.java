@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.lafzi.lafzi.R;
 import com.lafzi.lafzi.adapters.AyatAdapter;
-import com.lafzi.lafzi.tasks.SearchTask;
 
 /**
  * Created by alfat on 21/04/17.
@@ -33,7 +32,7 @@ public class AyatQuranQueryListeners implements SearchView.OnQueryTextListener {
             Toast.makeText(activity, R.string.query_less_than_3, Toast.LENGTH_SHORT).show();
         else {
             progressDialog.show();
-            new SearchTask(adapter, activity, query).execute();
+            adapter.getFilter().filter(query);
         }
         return false;
     }

@@ -4,13 +4,13 @@
     <string name="more">More</string>
     <string name="pengaturan">Pengaturan</string>
     <string name="about">Tentang Lafzi</string>
-    <string name="search_placeholder">Ketikkan lafaz yang dicari</string>
+    <string name="search_placeholder">Ketikkan lafadz yang dicari</string>
     <string name="surah">Surat</string>
     <string name="ayah">Ayat</string>
     <string name="empty_result">Tidak ada hasil. Pastikan lafaz yang dicari ada pada Al-Quran</string>
     <string name="query_less_than_3">Lafaz dicari minimal 3 karakter</string>
-    <string name="search_result_count">Hasil Pencarian (%1$d hasil)</string>
-    <string name="building_index">Building Index..</string>
+    <string name="search_result_count">Ditemukan %1$d hasil</string>
+    <string name="building_index">Memuat data..</string>
     <string name="copied">Text copied</string>
     <string name="mencari">Pencarian..</string>
 
@@ -26,8 +26,9 @@
         \u2022 laa ilaaha illallaah\n
         \u2022 kun fayakuun
         \n\nTips:
-        \n\nGunakan spasi untuk pemisah kata agar hasil lebih akurat
-        \n\nTahan dan click hasil pencarian untuk meng-copy isi teks
+        \n\n
+        \u2022 Gunakan spasi untuk pemisah kata agar hasil lebih akurat\n
+        \u2022 Tahan dan click hasil pencarian untuk meng-copy isi teks
     </string>
 
     <!-- SettingActivity -->
@@ -41,7 +42,11 @@
     <!-- AboutActivity -->
     <string name="about_teks">
         Lafzi adalah aplikasi pencari lafaz pada Al-Quran. Aplikasi ini dibuat untuk memudahkan pencarian ayat dengan lafaz tertentu pada Al-Quran hanya dengan aksara Latin biasa berdasarkan pelafalan pembicara bahasa Indonesia, tanpa perlu mengetikkannya dalam aksara Arab.
-        \n\nLafzi untuk Android ini adalah aplikasi open source yang dibuat oleh Alfat Saputra Harun, didasarkan pada hasil penelitian skripsi Departemen Ilmu Komputer, Institut Pertanian Bogor oleh Muhammad Abrar Istiadi, S.Kom dengan pembimbing Ahmad Ridha, S.Kom MS.
+        \n\nLafzi untuk Android ini adalah aplikasi open source yang didasarkan pada hasil penelitian skripsi Departemen Ilmu Komputer, Institut Pertanian Bogor oleh Muhammad Abrar Istiadi, S.Kom dengan pembimbing Ahmad Ridha, S.Kom MS.
+        \n\nKontributor :
+        \n\n
+        \u2022 Alfat Saputra Harun (https://github.com/harunalfat)\n
+        \u2022 Muhammad Abrar Istiadi (https://github.com/abrari)
         \n\nSilahkan kunjungi https://github.com/lafzi Untuk melihat source code Lafzi.
     </string>
 

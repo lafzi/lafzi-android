@@ -2,7 +2,9 @@ package com.lafzi.lafzi.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
@@ -10,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.lafzi.lafzi.R;
@@ -53,15 +54,19 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
             viewHolder.suratAyat = (TextView) convertView.findViewById(R.id.surat_ayat);
             viewHolder.arabicTextView = (TextView) convertView.findViewById(R.id.ayat_arab);
             viewHolder.indoTextView = (TextView) convertView.findViewById(R.id.ayat_indo);
-            viewHolder.progressBar = (ProgressBar) convertView.findViewById(R.id.percentage_bar);
-            viewHolder.percentageText = (TextView) convertView.findViewById(R.id.percentage_text);
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.noUrut.setText("[" + Integer.toString(position + 1) + "]");
+        if (position % 2 == 1) {
+            convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.searchResultStripe));
+        } else {
+            convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.appBackground));
+        }
+
+        viewHolder.noUrut.setText(Integer.toString(position + 1));
 
         final String surah = getContext().getString(R.string.surah);
         final String ayah = getContext().getString(R.string.ayah);
@@ -79,16 +84,15 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
             int end = hp.getEndHighlight();
             if (hp.getEndHighlight() > ayatArabic.length() - 1)
                 end = ayatArabic.length() - 1;
-            wordToSpan.setSpan(new BackgroundColorSpan(Color.YELLOW),
+            wordToSpan.setSpan(new BackgroundColorSpan(Color.argb(128, 255, 238, 64)),
                     hp.getStartHighlight(),
                     end + 1,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        viewHolder.arabicTextView.setText(wordToSpan);
 
-        int relevance = (int) Math.round(ayat.relevance);
-        viewHolder.progressBar.setProgress(relevance);
-        viewHolder.percentageText.setText(String.format("%s%%", Integer.toString(relevance)));
+        Typeface meQuran = Typeface.createFromAsset(getContext().getAssets(), "fonts/me_quran.ttf");
+        viewHolder.arabicTextView.setTypeface(meQuran);
+        viewHolder.arabicTextView.setText(wordToSpan);
 
         return convertView;
     }
@@ -105,11 +109,6 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
         private TextView suratAyat;
         private TextView arabicTextView;
         private TextView indoTextView;
-        private ProgressBar progressBar;
-        private TextView percentageText;
     }
 
-    public void assignDatas(List<AyatQuran> results){
-        datas = results;
-    }
 }

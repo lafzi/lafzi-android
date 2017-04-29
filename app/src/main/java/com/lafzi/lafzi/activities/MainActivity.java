@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,8 +25,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        modifyActionBar();
         setContentView(R.layout.activity_main);
+        Toolbar mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(mainToolbar);
+
+        ((SearchView) findViewById(R.id.search)).setSubmitButtonEnabled(true);
 
         setView();
     }
@@ -56,17 +60,8 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private void modifyActionBar(){
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.logo_s);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
-    }
-
     private void setView(){
         final SearchView searchView = (SearchView) findViewById(R.id.search);
-        searchView.setQueryHint(getString(R.string.search_placeholder));
-        searchView.setIconified(false);
 
         final AyatAdapter ayatAdapter = new AyatAdapter(this, new LinkedList<AyatQuran>());
         final ProgressDialog pd = createProgressDialog();

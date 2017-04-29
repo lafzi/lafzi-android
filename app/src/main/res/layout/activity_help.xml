@@ -2,9 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_dots">
+    android:background="@color/appBackground">
+
+    <include layout="@layout/secondary_toolbar_layout"
+        android:id="@+id/secondary_toolbar"/>
 
     <TextView
+        android:layout_below="@id/secondary_toolbar"
         android:id="@+id/help_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

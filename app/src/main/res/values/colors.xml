@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="appBackground">#ffffff</color>
+    <color name="searchInputBackground">#eeeeee</color>
+    <color name="textAccent">#803300</color>
+    <color name="searchResultStripe">#f4f4f4</color>
+
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#a0a1a7</color>
-    <color name="colorAccent">#4cf12e</color>
+    <color name="colorAccent">#005500</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>
