@@ -19,11 +19,16 @@ public class HelpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
 
-        Toolbar mainToolbar = (Toolbar) findViewById(R.id.help_toolbar);
-        setSupportActionBar(mainToolbar);
+        setToolbar();
+    }
+
+    private void setToolbar(){
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.secondary_toolbar);
+        setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(getString(R.string.bantuan));
         }
     }
 

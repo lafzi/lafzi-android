@@ -19,17 +19,22 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        Toolbar mainToolbar = (Toolbar) findViewById(R.id.setting_toolbar);
-        setSupportActionBar(mainToolbar);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        setToolbar();
 
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.setting_content_frame, new SettingFragment())
                 .commit();
+    }
+
+    private void setToolbar(){
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.secondary_toolbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(getString(R.string.pengaturan));
+        }
     }
 
     @Override
