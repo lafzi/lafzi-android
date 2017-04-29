@@ -1,9 +1,9 @@
 package com.lafzi.lafzi.filters;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.Filter;
 import android.widget.TextView;
@@ -45,7 +45,6 @@ public class AyatAdapterFilter extends Filter {
     private final AyatAdapter adapter;
 
     private int maxScore;
-    private ProgressDialog pd;
 
     public AyatAdapterFilter(final Context context, final AyatAdapter adapter){
         final DbHelper dbHelper = DbHelper.getInstance(context);
@@ -122,10 +121,12 @@ public class AyatAdapterFilter extends Filter {
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
         adapter.clear();
+        SearchView searchView = (SearchView)((Activity) context).findViewById(R.id.search);
+        searchView.clearFocus();
+
         final TextView resultCounter = (TextView)((Activity) context).findViewById(R.id.result_counter);
         if (results.count > 0) {
             adapter.addAll((List<AyatQuran>)results.values);
-            adapter.notifyDataSetChanged();
 
             resultCounter.setText(context.getString(R.string.search_result_count, results.count));
             resultCounter.setVisibility(View.VISIBLE);

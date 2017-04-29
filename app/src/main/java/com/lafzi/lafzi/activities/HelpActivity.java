@@ -23,7 +23,7 @@ public class HelpActivity extends AppCompatActivity {
     }
 
     private void setToolbar(){
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.secondary_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.secondary_toolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
