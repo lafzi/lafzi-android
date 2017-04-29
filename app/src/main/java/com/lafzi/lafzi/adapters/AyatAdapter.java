@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.lafzi.lafzi.R;
 import com.lafzi.lafzi.filters.AyatAdapterFilter;
+import com.lafzi.lafzi.helpers.preferences.Preferences;
 import com.lafzi.lafzi.models.AyatQuran;
 import com.lafzi.lafzi.models.HighlightPosition;
 
@@ -42,6 +43,7 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
+        final boolean showTrans = new Preferences(getContext()).showTranslation();
 
         final AyatQuran ayat = getItem(position);
         if (convertView == null) {
@@ -73,7 +75,13 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
         final String suratAndAyatText = surah + " " + ayat.getSurahName() + " (" + ayat.getSurahNo() + ") " + ayah + " " + ayat.getAyatNo();
 
         viewHolder.suratAyat.setText(suratAndAyatText);
-        viewHolder.indoTextView.setText(ayat.getAyatIndonesian());
+
+        if (showTrans) {
+            viewHolder.indoTextView.setVisibility(View.VISIBLE);
+            viewHolder.indoTextView.setText(ayat.getAyatIndonesian());
+        } else {
+            viewHolder.indoTextView.setVisibility(View.GONE);
+        }
 
         final String ayatArabic = ayat.getAyatMuqathaat() == null ?
                 ayat.getAyatArabic()  : ayat.getAyatMuqathaat();
