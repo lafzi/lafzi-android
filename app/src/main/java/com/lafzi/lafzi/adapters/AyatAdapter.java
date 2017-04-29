@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.lafzi.lafzi.R;
@@ -112,7 +111,4 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
         private TextView indoTextView;
     }
 
-    public void assignDatas(List<AyatQuran> results){
-        datas = results;
-    }
 }
