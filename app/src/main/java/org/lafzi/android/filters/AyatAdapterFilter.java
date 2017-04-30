@@ -123,6 +123,7 @@ public class AyatAdapterFilter extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
+        adapter.clear();
 
         ProgressBar pb = (ProgressBar) activity.findViewById(R.id.searching_progress_bar);
         pb.setVisibility(View.GONE);
