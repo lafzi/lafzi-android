@@ -31,32 +31,31 @@
     <string name="showtrans">showtrans</string>
 
     <!-- HelpActivity -->
-    <string name="help_teks">
-        <b>Urutan hasil pencarian</b>\n
-        Hasil pencarian terurut kecocokan. Hasil yang paling atas adalah hasil yang menurut aplikasi paling cocok,
+    <string name="help_teks"><b>Urutan hasil pencarian</b>
+        \nHasil pencarian terurut kecocokan. Hasil yang paling atas adalah hasil yang menurut aplikasi paling cocok,
         sedangkan hasil yang paling bawah yang kemungkinan kurang cocok.
-        \n\n
+        \n
 
-        <b>Jika hasil pencarian tidak sesuai harapan...</b>\n
-        Sebagaimana mesin pencari pada umumnya, aplikasi ini tidak sempurna atau selalu dapat memberikan hasil yang sesuai.
+        \n<b>Jika hasil pencarian tidak sesuai harapan...</b>
+        \nSebagaimana mesin pencari pada umumnya, aplikasi ini tidak sempurna atau selalu dapat memberikan hasil yang sesuai.
         Ini dipengaruhi juga oleh lafadz pencarian yang dimasukkan. Pastikan lafadz yang dicari memang benar-benar
         ada di dalam Al-Qur\'an dan bukan misalnya hadits, do\'a, atau yang lainnya.
-        \n\n
-        Sebagai catatan, aplikasi ini ditujukan untuk mencari lafadz di dalam Al-Qur\'an dengan tulisan latin, dan <b>bukan</b> untuk mencari:
+        \n
+        \nSebagai catatan, aplikasi ini ditujukan untuk mencari lafadz di dalam Al-Qur\'an dengan tulisan latin, dan <b>bukan</b> untuk mencari:
         \n
         \u2022 Terjemahan\n
         \u2022 Nama surat atau nomor ayat\n
         \u2022 Teks Qur\'an dalam huruf Arab
-        \n\n
+        \n
 
-        <b>Jika hasil pencarian terlalu banyak...</b>\n
-        Jika lafadz yang dimasukkan terlalu pendek atau memang sangat umum kemunculannya di dalam Al-Qur\'an,
+        \n<b>Jika hasil pencarian terlalu banyak...</b>
+        \nJika lafadz yang dimasukkan terlalu pendek atau memang sangat umum kemunculannya di dalam Al-Qur\'an,
         misalnya lafadz "Allah", maka hasilnya akan sangat banyak. Untuk hasil yang lebih spesifik,
         Anda dapat mencoba masukan yang lebih panjang.
-        \n\n
+        \n
 
-        <b>Men-copy ayat hasil pencarian</b>\n
-        Klik dan tahan pada salah satu hasil pencarian untuk men-copy isi teksnya.
+        \n<b>Men-copy ayat hasil pencarian</b>
+        \nKlik dan tahan pada salah satu hasil pencarian untuk men-copy isi teksnya.
 
     </string>
 
@@ -74,14 +73,13 @@
     <string name="pref_saved">Pengaturan disimpan</string>
 
     <!-- AboutActivity -->
-    <string name="about_teks">
-        Lafzi adalah aplikasi pencari lafaz pada Al-Quran. Aplikasi ini dibuat untuk memudahkan pencarian ayat dengan lafaz tertentu pada Al-Quran hanya dengan aksara Latin biasa berdasarkan pelafalan pembicara bahasa Indonesia, tanpa perlu mengetikkannya dalam aksara Arab.
-        \n\nLafzi untuk Android ini adalah aplikasi open source yang didasarkan pada hasil penelitian skripsi Departemen Ilmu Komputer, Institut Pertanian Bogor oleh Muhammad Abrar Istiadi, S.Kom dengan pembimbing Ahmad Ridha, S.Kom MS.
-        \n\nKontributor :
+    <string name="about_teks">Lafzi adalah aplikasi pencari lafaz pada Al-Quran. Aplikasi ini dibuat untuk memudahkan pencarian ayat dengan lafaz tertentu pada Al-Quran hanya dengan aksara Latin biasa berdasarkan pelafalan pembicara bahasa Indonesia, tanpa perlu mengetikkannya dalam aksara Arab.
+        \n\nLafzi untuk Android ini adalah aplikasi open source yang didasarkan pada hasil penelitian skripsi Departemen Ilmu Komputer, Institut Pertanian Bogor oleh Muhammad Abrar Istiadi dengan pembimbing Ahmad Ridha.
+        \n\nKontributor:
         \n\n
-        \u2022 Alfat Saputra Harun (https://github.com/harunalfat)\n
-        \u2022 Muhammad Abrar Istiadi (https://github.com/abrari)
-        \n\nSilahkan kunjungi https://github.com/lafzi Untuk melihat source code Lafzi.
+        \u2022 <a href="https://github.com/harunalfat">Alfat Saputra Harun</a>\n
+        \u2022 <a href="https://github.com/abrari">Muhammad Abrar Istiadi</a>
+        \n\nKunjungi <a href="https://github.com/lafzi">https://github.com/lafzi</a> Untuk melihat source code Lafzi.
     </string>
 
 </resources>
