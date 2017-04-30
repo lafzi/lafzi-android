@@ -6,6 +6,6 @@
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-    app:elevation="4dp"
+    android:elevation="4dp"
     app:navigationIcon="@drawable/logo_lafzi_small"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />

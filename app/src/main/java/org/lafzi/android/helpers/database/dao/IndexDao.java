@@ -51,7 +51,6 @@ public class IndexDao {
 
         final String postStr = cursor
                 .getString(cursor.getColumnIndexOrThrow(Index.POST));
-        final JSONObject postTerm = new JSONObject(postStr);
-        return postTerm;
+        return new JSONObject(postStr);
     }
 }
