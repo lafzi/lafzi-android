@@ -22,7 +22,8 @@
         iqro\' bismirobbika;
         kun fayakun;
         fabiayyi aala\'i robbikumaa;
-        fir\'aun
+        fir\'aun;
+        wamallam yahkum bima anzala
     </string>
 
     <string name="database_updated">database_updates</string>
@@ -31,16 +32,32 @@
 
     <!-- HelpActivity -->
     <string name="help_teks">
-        Ketikkan potongan ayat atau lafaz dalam Al-Quran (tidak harus benar cara penulisannya), contoh:
+        <b>Urutan hasil pencarian</b>\n
+        Hasil pencarian terurut kecocokan. Hasil yang paling atas adalah hasil yang menurut aplikasi paling cocok,
+        sedangkan hasil yang paling bawah yang kemungkinan kurang cocok.
         \n\n
-        \u2022 alhamdulillahi rabbil-\'alamin\n
-        \u2022 innaloha ma\'a shoobiriin\n
-        \u2022 laa ilaaha illallaah\n
-        \u2022 kun fayakuun
-        \n\nTips:
+
+        <b>Jika hasil pencarian tidak sesuai harapan...</b>\n
+        Sebagaimana mesin pencari pada umumnya, aplikasi ini tidak sempurna atau selalu dapat memberikan hasil yang sesuai.
+        Ini dipengaruhi juga oleh lafadz pencarian yang dimasukkan. Pastikan lafadz yang dicari memang benar-benar
+        ada di dalam Al-Qur\'an dan bukan misalnya hadits, do\'a, atau yang lainnya.
         \n\n
-        \u2022 Gunakan spasi untuk pemisah kata agar hasil lebih akurat\n
-        \u2022 Tahan dan click hasil pencarian untuk meng-copy isi teks
+        Sebagai catatan, aplikasi ini ditujukan untuk mencari lafadz di dalam Al-Qur\'an dengan tulisan latin, dan <b>bukan</b> untuk mencari:
+        \n
+        \u2022 Terjemahan\n
+        \u2022 Nama surat atau nomor ayat\n
+        \u2022 Teks Qur\'an dalam huruf Arab
+        \n\n
+
+        <b>Jika hasil pencarian terlalu banyak...</b>\n
+        Jika lafadz yang dimasukkan terlalu pendek atau memang sangat umum kemunculannya di dalam Al-Qur\'an,
+        misalnya lafadz "Allah", maka hasilnya akan sangat banyak. Untuk hasil yang lebih spesifik,
+        Anda dapat mencoba masukan yang lebih panjang.
+        \n\n
+
+        <b>Men-copy ayat hasil pencarian</b>\n
+        Klik dan tahan pada salah satu hasil pencarian untuk men-copy isi teksnya.
+
     </string>
 
     <!-- SettingActivity -->
