@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.lafzi.android.R;
+import org.lafzi.android.BuildConfig;
 
 /**
  * Created by alfat on 23/04/17.
@@ -23,17 +25,19 @@ public class AboutActivity extends AppCompatActivity{
 
         setToolbar();
 
-        TextView t2 = (TextView) findViewById(R.id.about_text_view);
-        t2.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView tvAbout = (TextView) findViewById(R.id.about_text_view);
+        tvAbout.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void setToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.secondary_toolbar);
         setSupportActionBar(toolbar);
 
+        String versionName = getString(R.string.app_name) + " versi " + BuildConfig.VERSION_NAME;
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(getString(R.string.about));
+            getSupportActionBar().setTitle(versionName);
         }
     }
 

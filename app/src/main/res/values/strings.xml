@@ -73,8 +73,8 @@
     <string name="pref_saved">Pengaturan disimpan</string>
 
     <!-- AboutActivity -->
-    <string name="about_teks">Lafzi adalah aplikasi pencari lafaz pada Al-Quran. Aplikasi ini dibuat untuk memudahkan pencarian ayat dengan lafaz tertentu pada Al-Quran hanya dengan aksara Latin biasa berdasarkan pelafalan pembicara bahasa Indonesia, tanpa perlu mengetikkannya dalam aksara Arab.
-        \n\nLafzi untuk Android ini adalah aplikasi open source yang didasarkan pada hasil penelitian skripsi Departemen Ilmu Komputer, Institut Pertanian Bogor oleh Muhammad Abrar Istiadi dengan pembimbing Ahmad Ridha.
+    <string name="about_teks">Lafzi adalah aplikasi pencari lafadz pada Al-Quran. Aplikasi ini dibuat untuk memudahkan pencarian ayat dengan lafadz tertentu pada Al-Quran hanya dengan aksara Latin biasa berdasarkan pelafalan pembicara bahasa Indonesia, tanpa perlu mengetikkannya dalam aksara Arab.
+        \n\nLafzi untuk Android ini adalah aplikasi open source yang didasarkan pada hasil penelitian skripsi Departemen Ilmu Komputer, Fakultas MIPA Institut Pertanian Bogor.
         \n\nKontributor:
         \n\n
         \u2022 <a href="https://github.com/harunalfat">Alfat Saputra Harun</a>\n
