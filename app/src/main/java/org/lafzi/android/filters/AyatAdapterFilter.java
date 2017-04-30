@@ -1,13 +1,15 @@
 package org.lafzi.android.filters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Filter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.json.JSONException;
 import org.lafzi.android.R;
 import org.lafzi.android.adapters.AyatAdapter;
 import org.lafzi.android.helpers.database.DbHelper;
@@ -15,8 +17,6 @@ import org.lafzi.android.helpers.database.dao.AyatQuranDao;
 import org.lafzi.android.helpers.database.dao.AyatQuranDaoFactory;
 import org.lafzi.android.helpers.database.dao.IndexDao;
 import org.lafzi.android.helpers.database.dao.IndexDaoFactory;
-import org.lafzi.android.helpers.database.dao.MappingPosisiDao;
-import org.lafzi.android.helpers.database.dao.MappingPosisiDaoFactory;
 import org.lafzi.android.helpers.preferences.Preferences;
 import org.lafzi.android.models.AyatQuran;
 import org.lafzi.android.models.FoundDocument;
@@ -39,43 +39,45 @@ public class AyatAdapterFilter extends Filter {
 
     private final AyatQuranDao ayatQuranDao;
     private final IndexDao indexDao;
-    private final MappingPosisiDao posisiDao;
 
-    private final Context context;
+    private final Activity activity;
     private final AyatAdapter adapter;
 
     private int maxScore;
 
-    public AyatAdapterFilter(final Context context, final AyatAdapter adapter){
-        final DbHelper dbHelper = DbHelper.getInstance(context);
+    public AyatAdapterFilter(final Activity activity, final AyatAdapter adapter){
+        final DbHelper dbHelper = DbHelper.getInstance();
         final SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         ayatQuranDao = AyatQuranDaoFactory.createAyatDao(db);
         indexDao = IndexDaoFactory.createIndexDao(db);
-        posisiDao = MappingPosisiDaoFactory.createMappingPosisiDao(db);
 
         this.adapter = adapter;
-        this.context = context;
+        this.activity = activity;
     }
 
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
 
-        Map<Integer, FoundDocument> matchedDocs;
+        Map<Integer, FoundDocument> matchedDocs = null;
         double threshold = 0.9;
-        final boolean isVocal = new Preferences(context).isVocal();
+        final boolean isVocal = Preferences.getInstance().isVocal();
 
         final String queryFinal = QueryUtil.normalizeQuery(constraint.toString(), isVocal);
         maxScore = queryFinal.length() - 2;
 
         do {
-            matchedDocs = SearchUtil.search(
-                    queryFinal,
-                    isVocal,
-                    true,
-                    true,
-                    threshold,
-                    indexDao);
+            try {
+                matchedDocs = SearchUtil.search(
+                        queryFinal,
+                        isVocal,
+                        true,
+                        true,
+                        threshold,
+                        indexDao);
+            } catch (JSONException e) {
+                Log.e("error", "Index JSON cannot be parsed", e);
+            }
             threshold -= 0.1;
         } while ((matchedDocs.size() < 1) && (threshold >= 0.7));
 
@@ -85,7 +87,7 @@ public class AyatAdapterFilter extends Filter {
 
         if (matchedDocs.size() > 0){
 
-            HighlightUtil.highlightPositions(matchedDocs, isVocal, ayatQuranDao, posisiDao);
+            HighlightUtil.highlightPositions(matchedDocs, isVocal, ayatQuranDao);
             matchedDocsValue = getMatchedDocsValues(matchedDocs);
 
             Collections.sort(matchedDocsValue, new Comparator<FoundDocument>() {
@@ -120,18 +122,24 @@ public class AyatAdapterFilter extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapter.clear();
-        SearchView searchView = (SearchView)((Activity) context).findViewById(R.id.search);
+
+        ProgressBar pb = (ProgressBar) activity.findViewById(R.id.searching_progress_bar);
+        pb.setVisibility(View.GONE);
+
+        SearchView searchView = (SearchView) activity.findViewById(R.id.search);
         searchView.clearFocus();
 
-        final TextView resultCounter = (TextView)((Activity) context).findViewById(R.id.result_counter);
+        final TextView resultCounter = (TextView) activity.findViewById(R.id.result_counter);
         if (results.count > 0) {
             adapter.addAll((List<AyatQuran>)results.values);
 
-            resultCounter.setText(context.getString(R.string.search_result_count, results.count));
+            resultCounter.setText(activity.getString(R.string.search_result_count, results.count));
             resultCounter.setVisibility(View.VISIBLE);
-        } else
+        } else {
             resultCounter.setVisibility(View.GONE);
+            TextView tv = (TextView) activity.findViewById(R.id.empty_result);
+            tv.setVisibility(View.VISIBLE);
+        }
     }
 
     private List<AyatQuran> getMatchedAyats(final List<FoundDocument> foundDocuments){

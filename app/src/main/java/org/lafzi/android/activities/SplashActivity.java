@@ -19,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash);
 
-        if (new Preferences(this).isDatabaseUpdated()){
+        if (Preferences.getInstance().isDatabaseUpdated()){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

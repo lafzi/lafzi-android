@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import org.lafzi.android.LafziApplication;
 import org.lafzi.android.R;
 
 /**
@@ -12,10 +13,18 @@ import org.lafzi.android.R;
 
 public class Preferences {
 
+    private static Preferences preferences;
+
     private final SharedPreferences sp;
     private final Context context;
 
-    public Preferences(final Context context){
+    public static Preferences getInstance(){
+        if (preferences == null)
+            preferences = new Preferences(LafziApplication.getLafziContext());
+        return preferences;
+    }
+
+    private Preferences(final Context context){
         this.context = context;
         sp = PreferenceManager.getDefaultSharedPreferences(context);
     }

@@ -3,7 +3,6 @@ package org.lafzi.android.utils;
 import android.util.Log;
 
 import org.lafzi.android.helpers.database.dao.AyatQuranDao;
-import org.lafzi.android.helpers.database.dao.MappingPosisiDao;
 import org.lafzi.android.models.AyatQuran;
 import org.lafzi.android.models.FoundDocument;
 import org.lafzi.android.models.HighlightPosition;
@@ -27,12 +26,11 @@ public class HighlightUtil {
 
     public static void highlightPositions(final Map<Integer, FoundDocument> matchedDocs,
                                           final boolean isVocal,
-                                          final AyatQuranDao quranDao,
-                                          final MappingPosisiDao posisiDao){
+                                          final AyatQuranDao quranDao){
 
         for (Map.Entry<Integer,  FoundDocument> entry : matchedDocs.entrySet()){
             final FoundDocument doc = entry.getValue();
-            final AyatQuran ayatQuran = quranDao.getAyatQuran(doc.getAyatQuranId());
+            final AyatQuran ayatQuran = quranDao.getAyatQuran(doc.getAyatQuranId(), isVocal);
 
             char[] docText = {};
 
@@ -47,9 +45,6 @@ public class HighlightUtil {
             doc.setAyatQuran(ayatQuran);
 
             final List<Integer> posisiReal = new ArrayList<>();
-            final List<Integer> mappingPosition = posisiDao
-                    .getMappingPosisi(doc.getAyatQuranId(), isVocal)
-                    .getPositions();
 
             final Set<Integer> seq = new LinkedHashSet<>();
 
@@ -61,7 +56,7 @@ public class HighlightUtil {
 
             final Iterator<Integer> iterator = seq.iterator();
             while (iterator.hasNext())
-                posisiReal.add(mappingPosition.get(iterator.next() - 1));
+                posisiReal.add(ayatQuran.getMappingPositions().get(iterator.next() - 1));
 
             doc.setHighlightPosition(
                     longestHighlightLookforward(posisiReal, 6)

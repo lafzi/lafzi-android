@@ -3,11 +3,9 @@ package org.lafzi.android.helpers.database.dao;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.lafzi.android.models.Index;
-import org.lafzi.android.models.builder.IndexBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by alfat on 21/04/17.
@@ -21,17 +19,13 @@ public class IndexDao {
         this.db = db;
     }
 
-    public List<Index> getIndexByTrigramTerm(final String term, final boolean isVocal){
+    public Index getIndexByTrigramTerm(final String term, final boolean isVocal) throws JSONException {
 
-        final List<Index> results = new ArrayList<>();
         final String tableName = isVocal ? Index.VOCAL_INDEX_TABLE_NAME : Index.NONVOCAL_INDEX_TABLE_NAME;
 
         final String[] projection = {
-                Index._ID,
-                Index.AYAT_QURAN_ID,
                 Index.TERM,
-                Index.FREQUENCY,
-                Index.POSITION
+                Index.POST
         };
 
         final String selection = Index.TERM + " = ?";
@@ -39,31 +33,25 @@ public class IndexDao {
 
         final Cursor cursor = db.query(tableName, projection, selection, selectionArgs, null, null, null);
 
-        while (cursor.moveToNext()){
-            results.add(readIndexFromCursor(cursor));
+        if (cursor.moveToNext()){
+            try{
+                return new Index(
+                        term,
+                        readPost(cursor)
+                );
+            } finally {
+                cursor.close();
+            }
         }
-        cursor.close();
-        return results;
+
+        return null;
     }
 
-    private Index readIndexFromCursor(final Cursor cursor){
-        final IndexBuilder builder = IndexBuilder.getInstance();
+    private JSONObject readPost(final Cursor cursor) throws JSONException {
 
-        builder.setId(cursor.getInt(cursor.getColumnIndexOrThrow(Index._ID)));
-        builder.setAyatQuranId(cursor.getInt(cursor.getColumnIndexOrThrow(Index.AYAT_QURAN_ID)));
-        builder.setTerm(cursor.getString(cursor.getColumnIndexOrThrow(Index.TERM)));
-        builder.setFrequency(cursor.getInt(cursor.getColumnIndexOrThrow(Index.FREQUENCY)));
-
-        final String[] positionsStr = cursor
-                .getString(cursor.getColumnIndexOrThrow(Index.POSITION))
-                .split(",");
-
-        final List<Integer> positions = new ArrayList<>();
-        for (int i = 0; i < positionsStr.length; i++){
-            positions.add(Integer.parseInt(positionsStr[i]));
-        }
-        builder.setPosition(positions);
-
-        return builder.build();
+        final String postStr = cursor
+                .getString(cursor.getColumnIndexOrThrow(Index.POST));
+        final JSONObject postTerm = new JSONObject(postStr);
+        return postTerm;
     }
 }

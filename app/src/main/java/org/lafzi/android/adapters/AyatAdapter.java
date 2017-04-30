@@ -1,6 +1,6 @@
 package org.lafzi.android.adapters;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
@@ -19,6 +19,7 @@ import org.lafzi.android.filters.AyatAdapterFilter;
 import org.lafzi.android.helpers.preferences.Preferences;
 import org.lafzi.android.models.AyatQuran;
 import org.lafzi.android.models.HighlightPosition;
+import org.lafzi.android.utils.GeneralUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,9 +34,9 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
 
     private List<AyatQuran> datas;
 
-    public AyatAdapter(Context context, LinkedList<AyatQuran> objects) {
-        super(context, 0, objects);
-        this.mFilter = new AyatAdapterFilter(context, this);
+    public AyatAdapter(Activity activity, LinkedList<AyatQuran> objects) {
+        super(activity, 0, objects);
+        this.mFilter = new AyatAdapterFilter(activity, this);
     }
 
     @NonNull
@@ -43,7 +44,7 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
-        final boolean showTrans = new Preferences(getContext()).showTranslation();
+        final boolean showTrans = Preferences.getInstance().showTranslation();
 
         final AyatQuran ayat = getItem(position);
         if (convertView == null) {
@@ -83,7 +84,7 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
             viewHolder.indoTextView.setVisibility(View.GONE);
         }
 
-        final String ayatArabic = ayat.getAyatMuqathaat() == null ?
+        final String ayatArabic = GeneralUtil.isNullOrEmpty(ayat.getAyatMuqathaat()) ?
                 ayat.getAyatArabic()  : ayat.getAyatMuqathaat();
 
         final Spannable wordToSpan = new SpannableString(ayatArabic);

@@ -2,6 +2,8 @@ package org.lafzi.android.models.builder;
 
 import org.lafzi.android.models.AyatQuran;
 
+import java.util.List;
+
 /**
  * Created by alfat on 21/04/17.
  */
@@ -15,6 +17,7 @@ public class AyatQuranBuilder {
     private String ayatArabic;
     private String ayatIndonesian;
     private String ayatMuqathaat;
+    private List<Integer> mappingPositions;
 
     private AyatQuranBuilder(){}
 
@@ -59,6 +62,11 @@ public class AyatQuranBuilder {
         return this;
     }
 
+    public AyatQuranBuilder setMappingPositions(List<Integer> mappingPositions){
+        this.mappingPositions = mappingPositions;
+        return this;
+    }
+
     public AyatQuran build(){
         return new AyatQuran(
                 id,
@@ -67,7 +75,8 @@ public class AyatQuranBuilder {
                 ayatNo,
                 ayatArabic,
                 ayatIndonesian,
-                ayatMuqathaat
+                ayatMuqathaat,
+                mappingPositions
         );
     }
 }

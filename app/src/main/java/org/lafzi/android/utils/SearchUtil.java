@@ -1,5 +1,7 @@
 package org.lafzi.android.utils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.lafzi.android.helpers.database.dao.IndexDao;
 import org.lafzi.android.models.FoundDocument;
 import org.lafzi.android.models.FreqAndPosition;
@@ -8,6 +10,7 @@ import org.lafzi.android.models.Index;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +27,7 @@ public class SearchUtil {
                                                            final boolean orderedByScore,
                                                            final boolean filtered,
                                                            final double filterThreshold,
-                                                           final IndexDao indexDao){
+                                                           final IndexDao indexDao) throws JSONException {
 
         final Map<Integer, FoundDocument> matchedDocs = new HashMap<>();
 
@@ -34,32 +37,39 @@ public class SearchUtil {
         for (final Map.Entry<String, FreqAndPosition> trigram : trigrams.entrySet()){
             final String term = trigram.getKey();
 
-            // index from SQLite
-            final List<Index> indices = indexDao.getIndexByTrigramTerm(term, isVocal);
-            for (Index index : indices){
+            // Index from SQLite
+            final Index index = indexDao.getIndexByTrigramTerm(term, isVocal);
+            final Iterator<String> indexIterator = index.getPost().keys();
+
+            while (indexIterator.hasNext()){
+
                 FoundDocument document = new FoundDocument();
 
-                // appearance counts
-                if (matchedDocs.containsKey(index.getAyatQuranId())){
-                    document = matchedDocs.get(index.getAyatQuranId());
+                final String ayatQuranIdStr = indexIterator.next();
+                final Integer ayatQuranId = Integer.parseInt(ayatQuranIdStr);
+                final JSONArray positions = index.getPost().getJSONArray(ayatQuranIdStr);
+
+                if (matchedDocs.containsKey(ayatQuranId)){
+
+                    document = matchedDocs.get(ayatQuranId);
                     int matchedTrigrams = document.getMatchedTrigramsCount();
                     final int queryTrigramFreq = trigram.getValue().getFreq();
-                    final int termFreq = index.getFrequency();
+                    final int termFreq = positions.length();
 
                     matchedTrigrams += (queryTrigramFreq < termFreq) ? queryTrigramFreq : termFreq;
                     document.setMatchedTrigramsCount(matchedTrigrams);
                 } else {
                     document.setMatchedTrigramsCount(1);
-                    document.setAyatQuranId(index.getAyatQuranId());
+                    document.setAyatQuranId(ayatQuranId);
                 }
 
                 final Map<String, List<Integer>> matchedTerms = document.getMatchedTerms() == null ?
                         new HashMap<String, List<Integer>>() : document.getMatchedTerms();
 
-                matchedTerms.put(trigram.getKey(), index.getPosition());
+                matchedTerms.put(trigram.getKey(), GeneralUtil.readIndexPositions(positions));
                 document.setMatchedTerms(matchedTerms);
 
-                matchedDocs.put(index.getAyatQuranId(), document);
+                matchedDocs.put(ayatQuranId, document);
             }
 
         }

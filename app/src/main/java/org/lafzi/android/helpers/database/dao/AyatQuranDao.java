@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import org.lafzi.android.models.AyatQuran;
 import org.lafzi.android.models.builder.AyatQuranBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by alfat on 21/04/17.
  */
@@ -18,7 +21,11 @@ public class AyatQuranDao {
         this.db = db;
     }
 
-    public AyatQuran getAyatQuran(final int id){
+    public AyatQuran getAyatQuran(final int id, final boolean isVocal){
+
+        final String mappingPosColumnName = isVocal ?
+                AyatQuran.VOCAL_MAPPING_POSITION :
+                AyatQuran.NONVOCAL_MAPPING_POSITIONG;
 
         final String[] projection = {
                 AyatQuran._ID,
@@ -28,6 +35,7 @@ public class AyatQuranDao {
                 AyatQuran.AYAT_ARABIC,
                 AyatQuran.AYAT_INDONESIAN,
                 AyatQuran.AYAT_MUQATHAAT,
+                mappingPosColumnName
         };
 
         final String selection = AyatQuran._ID + " = ?";
@@ -37,7 +45,7 @@ public class AyatQuranDao {
 
         if (cursor.moveToNext()){
             try {
-                return readAyatQuranFromCursor(cursor);
+                return readAyatQuranFromCursor(cursor, mappingPosColumnName);
             } finally {
                 cursor.close();
             }
@@ -47,7 +55,7 @@ public class AyatQuranDao {
         return null;
     }
 
-    private AyatQuran readAyatQuranFromCursor(final Cursor cursor){
+    private AyatQuran readAyatQuranFromCursor(final Cursor cursor, final String mappingPosColumnName){
         final AyatQuranBuilder aqBuilder = AyatQuranBuilder.getInstance();
 
         aqBuilder.setId(cursor
@@ -78,7 +86,21 @@ public class AyatQuranDao {
                 .getString(cursor
                         .getColumnIndexOrThrow(AyatQuran.AYAT_MUQATHAAT)));
 
+        aqBuilder.setMappingPositions(getMappingPositions(cursor, mappingPosColumnName));
+
         return aqBuilder.build();
+    }
+
+    private List<Integer> getMappingPositions(final Cursor cursor, final String mappingPosColumnName){
+        final String[] mappingPositionsStr = cursor
+                .getString(cursor.getColumnIndex(mappingPosColumnName))
+                .split(",");
+
+        final List<Integer> result = new ArrayList<>(mappingPositionsStr.length);
+        for (int i = 0; i < mappingPositionsStr.length; i++){
+            result.add(Integer.parseInt(mappingPositionsStr[i]));
+        }
+        return result;
     }
 
 }

@@ -18,6 +18,8 @@ public class AyatQuran implements BaseColumns {
     public static final String AYAT_ARABIC = "ayat_arabic";
     public static final String AYAT_INDONESIAN = "ayat_indonesian";
     public static final String AYAT_MUQATHAAT = "ayat_muqathaat";
+    public static final String VOCAL_MAPPING_POSITION = "vocal_mapping_position";
+    public static final String NONVOCAL_MAPPING_POSITIONG = "nonvocal_mapping_position";
 
     private final int id;
     private final int surahNo;
@@ -26,6 +28,7 @@ public class AyatQuran implements BaseColumns {
     private final String ayatArabic;
     private final String ayatIndonesian;
     private final String ayatMuqathaat;
+    private final List<Integer> mappingPositions;
 
     public List<HighlightPosition> highlightPositions = new ArrayList<>();
     public double relevance;
@@ -36,7 +39,8 @@ public class AyatQuran implements BaseColumns {
                      int ayatNo,
                      String ayatArabic,
                      String ayatIndonesian,
-                     String ayatMuqathaat) {
+                     String ayatMuqathaat,
+                     List<Integer> mappingPosition) {
         this.id = id;
         this.surahNo = surahNo;
         this.surahName = surahName;
@@ -44,6 +48,7 @@ public class AyatQuran implements BaseColumns {
         this.ayatArabic = ayatArabic;
         this.ayatIndonesian = ayatIndonesian;
         this.ayatMuqathaat = ayatMuqathaat;
+        this.mappingPositions = mappingPosition;
     }
 
     public int getId() {
@@ -72,5 +77,9 @@ public class AyatQuran implements BaseColumns {
 
     public String getAyatMuqathaat() {
         return ayatMuqathaat;
+    }
+
+    public List<Integer> getMappingPositions() {
+        return mappingPositions;
     }
 }

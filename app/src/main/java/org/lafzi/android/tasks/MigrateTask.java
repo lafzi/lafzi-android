@@ -1,10 +1,13 @@
 package org.lafzi.android.tasks;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import org.lafzi.android.R;
 import org.lafzi.android.activities.MainActivity;
 import org.lafzi.android.helpers.database.DbHelper;
 import org.lafzi.android.helpers.preferences.Preferences;
@@ -15,23 +18,32 @@ import org.lafzi.android.helpers.preferences.Preferences;
 
 public class MigrateTask extends AsyncTask<Void, Void, Void> {
 
-    private final Context context;
+    private final Activity activity;
 
-    public MigrateTask(Context context) {
-        this.context = context;
+    public MigrateTask(Activity activity) {
+        this.activity = activity;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        ProgressBar pb = (ProgressBar) activity.findViewById(R.id.migration_progress_bar);
+        pb.setVisibility(View.VISIBLE);
+
+        TextView tv = (TextView) activity.findViewById(R.id.migration_text);
+        tv.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected Void doInBackground(Void... params) {
-        DbHelper.getInstance(context).getWritableDatabase();
+        DbHelper.getInstance().getWritableDatabase();
         return null;
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        new Preferences(context).setDatabaseUpdated(true);
-        Intent intent = new Intent(context, MainActivity.class);
-        context.startActivity(intent);
-        ((Activity) context).finish();
+        Preferences.getInstance().setDatabaseUpdated(true);
+        Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
     }
 }

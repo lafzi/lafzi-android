@@ -10,7 +10,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 
 import org.lafzi.android.R;
@@ -72,33 +71,13 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         final SearchView searchView = (SearchView) findViewById(R.id.search);
 
         final AyatAdapter ayatAdapter = new AyatAdapter(this, new LinkedList<AyatQuran>());
-        final ProgressDialog pd = createProgressDialog();
-
-        //listView.setOnScrollListener();
-        searchView.setOnQueryTextListener(new AyatQuranQueryListeners(ayatAdapter, this, pd));
+        searchView.setOnQueryTextListener(new AyatQuranQueryListeners(ayatAdapter, this));
 
         final ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(ayatAdapter);
         listView.setEmptyView(findViewById(R.id.empty_result));
         listView.setOnItemLongClickListener(new AyatLongClickListener(this));
-        listView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                pd.dismiss();
-            }
-        });
 
-    }
-
-    private ProgressDialog createProgressDialog(){
-        final ProgressDialog pd = new ProgressDialog(this);
-        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pd.setIndeterminate(true);
-        pd.setProgressNumberFormat(null);
-        pd.setProgressPercentFormat(null);
-        pd.setMessage(getString(R.string.mencari));
-
-        return pd;
     }
 
     @Override

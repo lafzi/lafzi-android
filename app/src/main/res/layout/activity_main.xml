@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:background="@color/appBackground">
 
     <include layout="@layout/main_toolbar_layout"
@@ -20,6 +20,14 @@
         app:queryBackground="@color/searchInputBackground"
         app:submitBackground="@color/searchInputBackground"
         />
+
+    <ProgressBar
+        android:id="@+id/searching_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/result_counter"
