@@ -33,7 +33,7 @@ public class AboutActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.secondary_toolbar);
         setSupportActionBar(toolbar);
 
-        String versionName = getString(R.string.app_name) + " versi " + BuildConfig.VERSION_NAME;
+        String versionName = getString(R.string.about_title, BuildConfig.VERSION_NAME);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

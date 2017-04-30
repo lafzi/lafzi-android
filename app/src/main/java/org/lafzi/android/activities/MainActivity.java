@@ -22,6 +22,7 @@ import org.lafzi.android.adapters.AyatAdapter;
 import org.lafzi.android.listeners.AyatLongClickListener;
 import org.lafzi.android.listeners.AyatQuranQueryListeners;
 import org.lafzi.android.models.AyatQuran;
+import org.lafzi.android.utils.GeneralUtil;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         for (int i = 0; i < examples.length; i++) {
             final String example = examples[i].trim();
-            if (!example.equals("")) {
+            if (!GeneralUtil.isNullOrEmpty(example)) {
                 TextView tv = new TextView(this);
                 tv.setLayoutParams(new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,

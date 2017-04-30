@@ -82,4 +82,6 @@
         \n\nKunjungi <a href="https://github.com/lafzi">https://github.com/lafzi</a> Untuk melihat source code Lafzi.
     </string>
 
+    <string name="about_title">Lafzi versi %1$s</string>
+
 </resources>
