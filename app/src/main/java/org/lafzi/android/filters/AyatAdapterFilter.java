@@ -6,6 +6,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Filter;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -137,9 +138,12 @@ public class AyatAdapterFilter extends Filter {
             resultCounter.setVisibility(View.VISIBLE);
         } else {
             resultCounter.setVisibility(View.GONE);
-            TextView tv = (TextView) activity.findViewById(R.id.empty_result);
-            tv.setVisibility(View.VISIBLE);
+            TextView tvEmptyResult = (TextView) activity.findViewById(R.id.empty_result);
+            tvEmptyResult.setVisibility(View.VISIBLE);
         }
+
+        LinearLayout tvSearchHelp = (LinearLayout) activity.findViewById(R.id.search_help);
+        tvSearchHelp.setVisibility(View.GONE);
     }
 
     private List<AyatQuran> getMatchedAyats(final List<FoundDocument> foundDocuments){
