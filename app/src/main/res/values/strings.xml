@@ -11,8 +11,19 @@
     <string name="query_less_than_3">Lafaz dicari minimal 3 karakter</string>
     <string name="search_result_count">Ditemukan %1$d hasil</string>
     <string name="building_index">Memuat data..</string>
-    <string name="copied">Text copied</string>
-    <string name="mencari">Pencarian..</string>
+    <string name="copied">Text disalin</string>
+    <string name="mencari">Mencari...</string>
+
+    <string name="search_help_text">Ketikkan lafadz Al-Quran yang ingin dicari.\nPerlu contoh? Cobalah:</string>
+    <string name="search_examples">
+        bismillaah;
+        wal qur\'anil hakim;
+        alif lam ro;
+        iqro\' bismirobbika;
+        kun fayakun;
+        fabiayyi aala\'i robbikumaa;
+        fir\'aun
+    </string>
 
     <string name="database_updated">database_updates</string>
     <string name="isvocal">isvocal</string>

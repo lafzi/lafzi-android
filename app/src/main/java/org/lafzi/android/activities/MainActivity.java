@@ -1,16 +1,21 @@
 package org.lafzi.android.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import org.lafzi.android.R;
 import org.lafzi.android.adapters.AyatAdapter;
@@ -18,6 +23,8 @@ import org.lafzi.android.listeners.AyatLongClickListener;
 import org.lafzi.android.listeners.AyatQuranQueryListeners;
 import org.lafzi.android.models.AyatQuran;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -75,8 +82,40 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         final ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(ayatAdapter);
-        listView.setEmptyView(findViewById(R.id.empty_result));
+        listView.setEmptyView(findViewById(R.id.search_help));
         listView.setOnItemLongClickListener(new AyatLongClickListener(this));
+
+        setSearchExamples();
+    }
+
+    private void setSearchExamples() {
+
+        final SearchView searchView = (SearchView) findViewById(R.id.search);
+
+        String examples[] = getString(R.string.search_examples).split(";");
+        Collections.shuffle(Arrays.asList(examples));
+        final ViewFlipper viewFlipper = (ViewFlipper) findViewById(R.id.search_examples);
+
+        for (int i = 0; i < examples.length; i++) {
+            final String example = examples[i].trim();
+            if (!example.equals("")) {
+                TextView tv = new TextView(this);
+                tv.setLayoutParams(new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                tv.setGravity(Gravity.CENTER);
+                tv.setTypeface(null, Typeface.BOLD);
+                tv.setTextSize(20);
+                tv.setText(example + " \u25B6");
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        searchView.setQuery(example, true);
+                    }
+                });
+                viewFlipper.addView(tv);
+            }
+        }
 
     }
 
