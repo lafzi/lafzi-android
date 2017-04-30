@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import org.lafzi.android.R;
 import org.lafzi.android.BuildConfig;
+import org.lafzi.android.R;
 
 /**
  * Created by alfat on 23/04/17.
