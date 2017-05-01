@@ -16,21 +16,20 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_splash);
 
-        if (Preferences.getInstance().isDatabaseUpdated()){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    final Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }, SPLASH_TIME_OUT);
-        } else {
+        if (!Preferences.getInstance().isDatabaseUpdated()){
             new MigrateTask(this).execute();
         }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, SPLASH_TIME_OUT);
 
     }
 

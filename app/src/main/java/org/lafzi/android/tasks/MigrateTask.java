@@ -42,8 +42,5 @@ public class MigrateTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         Preferences.getInstance().setDatabaseUpdated(true);
-        Intent intent = new Intent(activity, MainActivity.class);
-        activity.startActivity(intent);
-        activity.finish();
     }
 }

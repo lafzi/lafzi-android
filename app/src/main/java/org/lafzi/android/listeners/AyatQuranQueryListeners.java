@@ -1,7 +1,6 @@
 package org.lafzi.android.listeners;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -19,7 +18,6 @@ public class AyatQuranQueryListeners implements SearchView.OnQueryTextListener {
 
     private final AyatAdapter adapter;
     private final Activity activity;
-    private ProgressDialog progressDialog;
 
     public AyatQuranQueryListeners(final AyatAdapter ayatAdapter,
                                    final Activity activity){
