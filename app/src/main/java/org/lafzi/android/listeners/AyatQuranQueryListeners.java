@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.support.v7.widget.SearchView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,9 +37,11 @@ public class AyatQuranQueryListeners implements SearchView.OnQueryTextListener {
 
             ProgressBar pb = (ProgressBar) activity.findViewById(R.id.searching_progress_bar);
             TextView tv = (TextView) activity.findViewById(R.id.empty_result);
+            LinearLayout tvSearchHelp = (LinearLayout) activity.findViewById(R.id.search_help);
 
             pb.setVisibility(View.VISIBLE);
             tv.setVisibility(View.GONE);
+            tvSearchHelp.setVisibility(View.GONE);
             adapter.getFilter().filter(query);
         }
         return false;
