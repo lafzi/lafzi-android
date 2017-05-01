@@ -11,25 +11,52 @@
     <string name="query_less_than_3">Lafaz dicari minimal 3 karakter</string>
     <string name="search_result_count">Ditemukan %1$d hasil</string>
     <string name="building_index">Memuat data..</string>
-    <string name="copied">Text copied</string>
-    <string name="mencari">Pencarian..</string>
+    <string name="copied">Text disalin</string>
+    <string name="mencari">Mencari...</string>
+
+    <string name="search_help_text">Ketikkan lafadz Al-Quran yang ingin dicari.\nPerlu contoh? Cobalah:</string>
+    <string name="search_examples">
+        bismillaah;
+        wal qur\'anil hakim;
+        alif lam ro;
+        iqro\' bismirobbika;
+        kun fayakun;
+        fabiayyi aala\'i robbikumaa;
+        fir\'aun;
+        wamallam yahkum bima anzala
+    </string>
 
     <string name="database_updated">database_updates</string>
     <string name="isvocal">isvocal</string>
     <string name="showtrans">showtrans</string>
 
     <!-- HelpActivity -->
-    <string name="help_teks">
-        Ketikkan potongan ayat atau lafaz dalam Al-Quran (tidak harus benar cara penulisannya), contoh:
-        \n\n
-        \u2022 alhamdulillahi rabbil-\'alamin\n
-        \u2022 innaloha ma\'a shoobiriin\n
-        \u2022 laa ilaaha illallaah\n
-        \u2022 kun fayakuun
-        \n\nTips:
-        \n\n
-        \u2022 Gunakan spasi untuk pemisah kata agar hasil lebih akurat\n
-        \u2022 Tahan dan click hasil pencarian untuk meng-copy isi teks
+    <string name="help_teks"><b>Urutan hasil pencarian</b>
+        \nHasil pencarian terurut kecocokan. Hasil yang paling atas adalah hasil yang menurut aplikasi paling cocok,
+        sedangkan hasil yang paling bawah yang kemungkinan kurang cocok.
+        \n
+
+        \n<b>Jika hasil pencarian tidak sesuai harapan...</b>
+        \nSebagaimana mesin pencari pada umumnya, aplikasi ini tidak sempurna atau selalu dapat memberikan hasil yang sesuai.
+        Ini dipengaruhi juga oleh lafadz pencarian yang dimasukkan. Pastikan lafadz yang dicari memang benar-benar
+        ada di dalam Al-Qur\'an dan bukan misalnya hadits, do\'a, atau yang lainnya.
+        \n
+        \nSebagai catatan, aplikasi ini ditujukan untuk mencari lafadz di dalam Al-Qur\'an dengan tulisan latin, dan <b>bukan</b> untuk mencari:
+        \n
+        \u2022 Terjemahan\n
+        \u2022 Nama surat atau nomor ayat\n
+        \u2022 Teks Qur\'an dalam huruf Arab
+        \n
+
+        \n<b>Jika hasil pencarian terlalu banyak...</b>
+        \nJika lafadz yang dimasukkan terlalu pendek atau memang sangat umum kemunculannya di dalam Al-Qur\'an,
+        misalnya lafadz "Allah", maka hasilnya akan sangat banyak. Untuk hasil yang lebih spesifik,
+        Anda dapat mencoba masukan yang lebih panjang.
+        \n
+
+        \n<b>Men-copy ayat hasil pencarian</b>
+        \nKlik dan tahan pada salah satu hasil pencarian untuk men-copy isi teksnya.
+
     </string>
 
     <!-- SettingActivity -->
@@ -46,14 +73,15 @@
     <string name="pref_saved">Pengaturan disimpan</string>
 
     <!-- AboutActivity -->
-    <string name="about_teks">
-        Lafzi adalah aplikasi pencari lafaz pada Al-Quran. Aplikasi ini dibuat untuk memudahkan pencarian ayat dengan lafaz tertentu pada Al-Quran hanya dengan aksara Latin biasa berdasarkan pelafalan pembicara bahasa Indonesia, tanpa perlu mengetikkannya dalam aksara Arab.
-        \n\nLafzi untuk Android ini adalah aplikasi open source yang didasarkan pada hasil penelitian skripsi Departemen Ilmu Komputer, Institut Pertanian Bogor oleh Muhammad Abrar Istiadi, S.Kom dengan pembimbing Ahmad Ridha, S.Kom MS.
-        \n\nKontributor :
+    <string name="about_teks">Lafzi adalah aplikasi pencari lafadz pada Al-Quran. Aplikasi ini dibuat untuk memudahkan pencarian ayat dengan lafadz tertentu pada Al-Quran hanya dengan aksara Latin biasa berdasarkan pelafalan pembicara bahasa Indonesia, tanpa perlu mengetikkannya dalam aksara Arab.
+        \n\nLafzi untuk Android ini adalah aplikasi open source yang didasarkan pada hasil penelitian skripsi Departemen Ilmu Komputer, Fakultas MIPA Institut Pertanian Bogor.
+        \n\nKontributor:
         \n\n
-        \u2022 Alfat Saputra Harun (https://github.com/harunalfat)\n
-        \u2022 Muhammad Abrar Istiadi (https://github.com/abrari)
-        \n\nSilahkan kunjungi https://github.com/lafzi Untuk melihat source code Lafzi.
+        \u2022 <a href="https://github.com/harunalfat">Alfat Saputra Harun</a>\n
+        \u2022 <a href="https://github.com/abrari">Muhammad Abrar Istiadi</a>
+        \n\nKunjungi <a href="https://github.com/lafzi">https://github.com/lafzi</a> Untuk melihat source code Lafzi.
     </string>
+
+    <string name="about_title">Lafzi versi %1$s</string>
 
 </resources>
