@@ -22,7 +22,7 @@ public class SearchUtil {
 
     private SearchUtil(){}
 
-    public static final Map<Integer, FoundDocument> search(final String queryFinal,
+    public static Map<Integer, FoundDocument> search(final String queryFinal,
                                                            final boolean isVocal,
                                                            final boolean orderedByScore,
                                                            final boolean filtered,
