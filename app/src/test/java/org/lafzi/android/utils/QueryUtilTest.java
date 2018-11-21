@@ -1,6 +1,7 @@
 package org.lafzi.android.utils;
 
 import org.junit.Test;
+import org.lafzi.lafzi.utils.QueryUtil;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
