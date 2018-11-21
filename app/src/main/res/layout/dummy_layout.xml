@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/appBackground">
+    android:background="@color/appBackground"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
     <TextView
         android:id="@+id/dummy_surat_ayat"
