@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appBackground">
+
+    <include layout="@layout/main_toolbar_layout"
+        android:id="@+id/single_main_toolbar"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        app:menu_colorNormal="@color/colorAccentTransparent"
+        app:menu_colorPressed="@color/colorAccentTransparent"
+        app:menu_icon="@drawable/ic_more_vert_black_24dp"
+        android:id="@+id/action_menu">
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorAccentTransparent"
+            app:fab_colorPressed="@color/colorAccentTransparent"
+            android:id="@+id/share_button"
+            app:srcCompat="@drawable/ic_share_black_24dp"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorAccentTransparent"
+            app:fab_colorPressed="@color/colorAccentTransparent"
+            android:id="@+id/back_button"
+            app:srcCompat="@drawable/ic_arrow_back_black_24dp"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorAccentTransparent"
+            app:fab_colorPressed="@color/colorAccentTransparent"
+            android:id="@+id/next_button"
+            app:srcCompat="@drawable/ic_arrow_forward_black_24dp"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</FrameLayout>

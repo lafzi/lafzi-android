@@ -8,6 +8,7 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#a0a1a7</color>
     <color name="colorAccent">#005500</color>
+    <color name="colorAccentTransparent">#40005500</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>
