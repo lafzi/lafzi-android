@@ -28,17 +28,14 @@ import org.lafzi.android.R;
 import org.lafzi.lafzi.adapters.AyatPagerAdapter;
 import org.lafzi.lafzi.helpers.BitmapHelper;
 import org.lafzi.lafzi.helpers.database.AllAyatHandler;
-import org.lafzi.lafzi.models.AyatQuran;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class SingleAyatActivity extends AppCompatActivity {
 
     private final String AYAT_ID = "ayat_id";
     private int ayatId;
-    private List<AyatQuran> ayatqurans;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +51,6 @@ public class SingleAyatActivity extends AppCompatActivity {
         }
 
         ayatId = getIntent().getIntExtra(AYAT_ID, 0);
-        ayatqurans  = AllAyatHandler.getInstance().getAllAyats();
         setView();
     }
 
@@ -86,7 +82,7 @@ public class SingleAyatActivity extends AppCompatActivity {
         final FloatingActionButton backButton = (FloatingActionButton) findViewById(R.id.back_button);
         final FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.next_button);
 
-        final FragmentStatePagerAdapter adapter = new AyatPagerAdapter(getSupportFragmentManager(), this.ayatqurans);
+        final FragmentStatePagerAdapter adapter = new AyatPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
         pager.setCurrentItem(this.ayatId - 1);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -126,7 +122,7 @@ public class SingleAyatActivity extends AppCompatActivity {
                                 final String indonesia = ((TextView) pager.findViewById(R.id.single_ayat_indo)).getText().toString();
                                 final String suratAyat = ((TextView) pager.findViewById(R.id.single_surat_ayat)).getText().toString();
 
-                                shareIntent.putExtra(Intent.EXTRA_TEXT, suratAyat + "\n" + arabic + "\n" + indonesia);
+                                shareIntent.putExtra(Intent.EXTRA_TEXT, suratAyat + "\n\n" + arabic + "\n" + indonesia + "\n\n" + getString(R.string.text_footer));
                                 startActivity(Intent.createChooser(shareIntent, getString(R.string.bagikan_menggunakan)));
                         }
                     }
@@ -167,7 +163,11 @@ public class SingleAyatActivity extends AppCompatActivity {
             shareIntent.setType("image/jpeg");
             File imageFile = null;
             try {
-                imageFile = BitmapHelper.saveBitmap(BitmapHelper.loadBitmapFromView(ayatqurans.get(ayatId-1), getApplicationContext()), getApplicationContext());
+                imageFile = BitmapHelper.saveBitmap(BitmapHelper
+                                .loadBitmapFromView(AllAyatHandler
+                                        .getInstance()
+                                        .getAllAyats()
+                                        .get(ayatId-1), getApplicationContext()), getApplicationContext());
             } catch (IOException e) {
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getApplicationContext());
                 alertBuilder.setTitle(R.string.gagal_membagi);

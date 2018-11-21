@@ -34,6 +34,7 @@
     </string>
     <string name="titel_opsi_bagikan">Jenis Pembagian</string>
     <string name="bagikan_menggunakan">Bagikan Menggunakan</string>
+    <string name="text_footer">(Dibagikan dari aplikasi Lafzi - https://play.google.com/store/apps/details?id=org.lafzi.lafzi)</string>
 
     <string name="database_updated">database_updates</string>
     <string name="isvocal">isvocal</string>

@@ -12,29 +12,25 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.lafzi.android.R;
+import org.lafzi.lafzi.helpers.database.AllAyatHandler;
 import org.lafzi.lafzi.models.AyatQuran;
 import org.lafzi.lafzi.utils.GeneralUtil;
 
-import java.util.List;
-
 public class AyatPagerAdapter extends FragmentStatePagerAdapter {
 
-    private final List<AyatQuran> ayatQurans;
-
-    public AyatPagerAdapter(FragmentManager fm, List<AyatQuran> ayatQurans) {
+    public AyatPagerAdapter(FragmentManager fm) {
         super(fm);
-        this.ayatQurans = ayatQurans;
     }
 
     @Override
     public Fragment getItem(int position) {
-        final AyatQuran ayatQuran = ayatQurans.get(position);
+        final AyatQuran ayatQuran = AllAyatHandler.getInstance().getAllAyats().get(position);
         return SingleAyatFragment.newInstance(ayatQuran);
     }
 
     @Override
     public int getCount() {
-        return ayatQurans.size();
+        return AllAyatHandler.getInstance().getAllAyats().size();
     }
 
     public static class SingleAyatFragment extends Fragment {
