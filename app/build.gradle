@@ -7,7 +7,7 @@ android {
         applicationId "org.lafzi.lafzi"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 4
+        versionCode 5
         versionName "1.2.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
