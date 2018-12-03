@@ -12,25 +12,30 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.lafzi.android.R;
-import org.lafzi.lafzi.helpers.database.AllAyatHandler;
+import org.lafzi.lafzi.helpers.database.DbHelper;
+import org.lafzi.lafzi.helpers.database.dao.AyatQuranDao;
+import org.lafzi.lafzi.helpers.database.dao.AyatQuranDaoFactory;
 import org.lafzi.lafzi.models.AyatQuran;
 import org.lafzi.lafzi.utils.GeneralUtil;
 
 public class AyatPagerAdapter extends FragmentStatePagerAdapter {
 
+    private final AyatQuranDao dao;
+
     public AyatPagerAdapter(FragmentManager fm) {
         super(fm);
+        dao = AyatQuranDaoFactory.createAyatDao(DbHelper.getInstance().getReadableDatabase());
     }
 
     @Override
     public Fragment getItem(int position) {
-        final AyatQuran ayatQuran = AllAyatHandler.getInstance().getAllAyats().get(position);
+        final AyatQuran ayatQuran = dao.getAyatQuran(position + 1, true);
         return SingleAyatFragment.newInstance(ayatQuran);
     }
 
     @Override
     public int getCount() {
-        return AllAyatHandler.getInstance().getAllAyats().size();
+        return 6236;
     }
 
     public static class SingleAyatFragment extends Fragment {
@@ -54,15 +59,17 @@ public class AyatPagerAdapter extends FragmentStatePagerAdapter {
 
             final String surah = getContext().getString(R.string.surah);
             final String ayah = getContext().getString(R.string.ayah);
-            final String suratAndAyatText = surah + " " + ayatQuran.getSurahName() + " (" + ayatQuran.getSurahNo() + ") " + ayah + " " + ayatQuran.getAyatNo();
-            tvNamaSuratAyat.setText(suratAndAyatText);
+            if (ayatQuran != null) {
+                final String suratAndAyatText = surah + " " + ayatQuran.getSurahName() + " (" + ayatQuran.getSurahNo() + ") " + ayah + " " + ayatQuran.getAyatNo();
+                tvNamaSuratAyat.setText(suratAndAyatText);
 
-            Typeface meQuran = Typeface.createFromAsset(getContext().getAssets(), "fonts/me_quran.ttf");
-            tvArab.setTypeface(meQuran);
-            final String ayatArabic = GeneralUtil.isNullOrEmpty(ayatQuran.getAyatMuqathaat()) ?
-                    ayatQuran.getAyatArabic()  : ayatQuran.getAyatMuqathaat();
-            tvArab.setText(ayatArabic);
-            tvIndo.setText(ayatQuran.getAyatIndonesian());
+                Typeface meQuran = Typeface.createFromAsset(getContext().getAssets(), "fonts/me_quran.ttf");
+                tvArab.setTypeface(meQuran);
+                final String ayatArabic = GeneralUtil.isNullOrEmpty(ayatQuran.getAyatMuqathaat()) ?
+                        ayatQuran.getAyatArabic() : ayatQuran.getAyatMuqathaat();
+                tvArab.setText(ayatArabic);
+                tvIndo.setText(ayatQuran.getAyatIndonesian());
+            }
 
             return view;
         }

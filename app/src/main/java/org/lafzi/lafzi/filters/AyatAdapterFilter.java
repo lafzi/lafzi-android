@@ -62,7 +62,12 @@ public class AyatAdapterFilter extends Filter {
 
         Map<Integer, FoundDocument> matchedDocs = null;
         double threshold = 0.9;
-        final boolean isVocal = Preferences.getInstance().isVocal();
+        boolean isVocal = Preferences.getInstance().isVocal();
+
+        /*if (!ArabicHelper.textIsLatin(constraint)) {
+            isVocal = false;
+            constraint = ArabicHelper.getPhonetic(constraint.toString(), isVocal);
+        }*/
 
         final String queryFinal = QueryUtil.normalizeQuery(constraint.toString(), isVocal);
         maxScore = queryFinal.length() - 2;
