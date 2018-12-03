@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         Toolbar mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mainToolbar);
 
-        ((SearchView) findViewById(R.id.search)).setSubmitButtonEnabled(true);
-
         preferencesChanged = false;
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.registerOnSharedPreferenceChangeListener(this);
@@ -83,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private void setView(){
         final SearchView searchView = (SearchView) findViewById(R.id.search);
+        searchView.setSubmitButtonEnabled(false);
 
         final AyatAdapter ayatAdapter = new AyatAdapter(this, new LinkedList<AyatQuran>());
         searchView.setOnQueryTextListener(new AyatQuranQueryListeners(ayatAdapter, this));

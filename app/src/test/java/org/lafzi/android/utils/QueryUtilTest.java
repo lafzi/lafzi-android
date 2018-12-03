@@ -21,6 +21,9 @@ public class QueryUtilTest {
 
         result = QueryUtil.normalizeQuery("Adzaabis saiir", true);
         assertThat(result, equalTo("XAZABISAYR"));
+
+        result = QueryUtil.normalizeQuery("Fir'aun", true);
+        assertThat(result, equalTo("FIRXAWN"));
     }
 
     @Test
