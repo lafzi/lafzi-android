@@ -63,7 +63,9 @@ public class HighlightUtil {
             );
 
             final List<HighlightPosition> hps = doc.getHighlightPosition();
-            final int endPosition = hps.get(hps.size() - 1).getEndHighlight();
+            int endPosition = hps.get(hps.size() - 1).getEndHighlight();
+
+            if (endPosition > docText.length - 3) endPosition = docText.length - 3;
 
             if (docText[endPosition + 1] == ' '
                     || docText.length - 1 <= endPosition + 1)
