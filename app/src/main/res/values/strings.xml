@@ -92,5 +92,7 @@
     </string>
 
     <string name="about_title">Lafzi versi %1$s</string>
+    <string name="no_internet_connection">Tidak ada koneksi internet</string>
+    <string name="no_google_app">Google App tidak aktif atau belum terinstall</string>
 
 </resources>
