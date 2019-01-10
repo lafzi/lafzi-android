@@ -30,4 +30,10 @@ public class GeneralUtil {
         return true;
     }
 
+    public static String reverse(String in) {
+        StringBuilder sb = new StringBuilder(in);
+        sb.reverse();
+        return sb.toString();
+    }
+
 }

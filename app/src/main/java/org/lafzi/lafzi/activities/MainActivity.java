@@ -300,41 +300,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             if (resultCode == RESULT_OK) {
                 List<String> results = data.getStringArrayListExtra
                         (RecognizerIntent.EXTRA_RESULTS);
-                VocalizationClient vc = new VocalizationClient("http://localhost:5000", MainActivity.this);
-                vc.getVocalization(results.get(0));
+                this.mSearchView.setQuery(results.get(0), true);
             }
         }
-    }
-
-    public class VocalizationClient {
-
-        private final String baseUrl;
-        private final RequestQueue queue;
-
-        public VocalizationClient(final String baseUrl, final Context context) {
-            this.baseUrl = baseUrl;
-            this.queue = Volley.newRequestQueue(context);
-        }
-
-        public void getVocalization(final String query) {
-            final String visitUrl = baseUrl + "?query=" + query;
-            final StringRequest request = new StringRequest(Request.Method.GET, visitUrl,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            final String latin = ArabicHelper.getPhonetic(response, true);
-                            mSearchView.setQuery(latin, true);
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG, "That did not work!", error);
-                            Toast.makeText(MainActivity.this, "Error when querying result...", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-            queue.add(request);
-        }
-
     }
 }

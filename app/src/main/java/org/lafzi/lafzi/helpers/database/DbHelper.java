@@ -14,7 +14,7 @@ public class DbHelper extends SQLiteAssetHelper {
 
     private static DbHelper instance;
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "lafzi.sqlite";
 
     private final Context context;

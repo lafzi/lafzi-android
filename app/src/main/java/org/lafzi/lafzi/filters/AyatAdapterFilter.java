@@ -13,14 +13,18 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.lafzi.android.R;
 import org.lafzi.lafzi.adapters.AyatAdapter;
+import org.lafzi.lafzi.helpers.ArabicHelper;
 import org.lafzi.lafzi.helpers.database.DbHelper;
 import org.lafzi.lafzi.helpers.database.dao.AyatQuranDao;
 import org.lafzi.lafzi.helpers.database.dao.AyatQuranDaoFactory;
 import org.lafzi.lafzi.helpers.database.dao.IndexDao;
 import org.lafzi.lafzi.helpers.database.dao.IndexDaoFactory;
+import org.lafzi.lafzi.helpers.database.dao.QuranTextDao;
+import org.lafzi.lafzi.helpers.database.dao.QuranTextDaoFactory;
 import org.lafzi.lafzi.helpers.preferences.Preferences;
 import org.lafzi.lafzi.models.AyatQuran;
 import org.lafzi.lafzi.models.FoundDocument;
+import org.lafzi.lafzi.models.QuranText;
 import org.lafzi.lafzi.utils.HighlightUtil;
 import org.lafzi.lafzi.utils.QueryUtil;
 import org.lafzi.lafzi.utils.SearchUtil;
@@ -40,6 +44,7 @@ public class AyatAdapterFilter extends Filter {
 
     private final AyatQuranDao ayatQuranDao;
     private final IndexDao indexDao;
+    private final QuranTextDao quranTextDao;
 
     private final Activity activity;
     private final AyatAdapter adapter;
@@ -52,6 +57,7 @@ public class AyatAdapterFilter extends Filter {
 
         ayatQuranDao = AyatQuranDaoFactory.createAyatDao(db);
         indexDao = IndexDaoFactory.createIndexDao(db);
+        quranTextDao = QuranTextDaoFactory.createQuranTextDao(db);
 
         this.adapter = adapter;
         this.activity = activity;
@@ -59,16 +65,35 @@ public class AyatAdapterFilter extends Filter {
 
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
+        List<AyatQuran> ayatQurans;
+        if (!ArabicHelper.textIsLatin(constraint)) {
+            ayatQurans = searchArabic(constraint);
+        } else {
+            ayatQurans = searchLatin(constraint);
+        }
 
+        final FilterResults results = new FilterResults();
+        results.values = ayatQurans;
+        results.count = ayatQurans.size();
+
+        return results;
+    }
+
+    private List<AyatQuran> searchArabic(CharSequence constraint) {
+        List<QuranText> quranTexts = quranTextDao.searchArabic(constraint.toString());
+        List<AyatQuran> results = new ArrayList<>();
+        for (QuranText quranText : quranTexts) {
+            final AyatQuran aq = ayatQuranDao.getAyatQuran(quranText.getDocId(), true);
+            aq.highlightPositions = HighlightUtil.longestHighlightLookforward(quranText.getPos(), 6);
+            results.add(aq);
+        }
+        return results;
+    }
+
+    private List<AyatQuran> searchLatin(CharSequence constraint) {
         Map<Integer, FoundDocument> matchedDocs = null;
         double threshold = 0.9;
         boolean isVocal = Preferences.getInstance().isVocal();
-
-        /*if (!ArabicHelper.textIsLatin(constraint)) {
-            isVocal = false;
-            constraint = ArabicHelper.getPhonetic(constraint.toString(), isVocal);
-        }*/
-
         final String queryFinal = QueryUtil.normalizeQuery(constraint.toString(), isVocal);
         maxScore = queryFinal.length() - 2;
 
@@ -109,12 +134,7 @@ public class AyatAdapterFilter extends Filter {
 
             ayatQurans = getMatchedAyats(matchedDocsValue);
         }
-
-        final FilterResults results = new FilterResults();
-        results.values = ayatQurans;
-        results.count = ayatQurans.size();
-
-        return results;
+        return ayatQurans;
     }
 
     private List<FoundDocument> getMatchedDocsValues(final Map<Integer, FoundDocument> matchedDocs){

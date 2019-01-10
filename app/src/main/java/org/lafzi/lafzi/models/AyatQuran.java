@@ -29,7 +29,7 @@ public class AyatQuran implements BaseColumns, Serializable {
     private final String ayatArabic;
     private final String ayatIndonesian;
     private final String ayatMuqathaat;
-    private final List<Integer> mappingPositions;
+    private List<Integer> mappingPositions;
 
     public List<HighlightPosition> highlightPositions = new ArrayList<>();
     public double relevance;

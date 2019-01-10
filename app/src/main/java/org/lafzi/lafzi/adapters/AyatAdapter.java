@@ -90,11 +90,28 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
         final Spannable wordToSpan = new SpannableString(ayatArabic);
         for (HighlightPosition hp : ayat.highlightPositions){
 
+            int start = hp.getStartHighlight();
             int end = hp.getEndHighlight();
-            if (hp.getEndHighlight() > ayatArabic.length() - 1)
-                end = ayatArabic.length() - 1;
+
+            System.out.println(start);
+            System.out.println(end);
+            if (start > end) {
+                int temp = start;
+                start = end;
+                end = temp;
+            }
+
+            if (start < 0) start = 0;
+            if (end < 0) end = 0;
+
+            if (start > ayatArabic.length() - 1) start = ayatArabic.length() - 1;
+            if (end > ayatArabic.length() - 1) end = ayatArabic.length() - 1;
+
+            System.out.println(start);
+            System.out.println(end);
+
             wordToSpan.setSpan(new BackgroundColorSpan(Color.argb(128, 255, 238, 64)),
-                    hp.getStartHighlight(),
+                    start,
                     end + 1,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }

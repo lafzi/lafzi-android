@@ -81,7 +81,7 @@ public class HighlightUtil {
         }
     }
 
-    private static List<HighlightPosition> longestHighlightLookforward(final List<Integer> highlightSequences,
+    public static List<HighlightPosition> longestHighlightLookforward(final List<Integer> highlightSequences,
                                                                        final int minLength){
         final int len = highlightSequences.size();
 

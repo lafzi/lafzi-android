@@ -134,7 +134,7 @@ public class SearchUtil {
         return results;
     }
 
-    private static List<Integer> longestContiguousSubsequence(final List<Integer> sequence,
+    public static List<Integer> longestContiguousSubsequence(final List<Integer> sequence,
                                                               final int maxGap){
         Collections.sort(sequence);
         final int size = sequence.size();
