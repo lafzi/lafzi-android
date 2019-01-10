@@ -64,7 +64,7 @@ public class QuranTextDao {
             @Override
             public int compare(QuranText t0, QuranText t1) {
                 if (t1.getScore() == t0.getScore()) {
-                    return t1.getDocId() - t0.getDocId();
+                    return t0.getDocId() - t1.getDocId();
                 }
                 return t1.getScore() - t0.getScore();
             }
