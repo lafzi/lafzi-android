@@ -105,7 +105,6 @@ public class ArabicHelper {
         if (!isVocal) source = removeHarakat(source);
         
         source = phoneticEncode(source).replace("X", "");
-        System.out.println(source);
         
         return source;
     }

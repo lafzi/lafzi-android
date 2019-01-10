@@ -63,7 +63,10 @@ public class QuranTextDao {
         Collections.sort(results, new Comparator<QuranText>() {
             @Override
             public int compare(QuranText t0, QuranText t1) {
-                return t0.getScore() - t1.getScore();
+                if (t1.getScore() == t0.getScore()) {
+                    return t1.getDocId() - t0.getDocId();
+                }
+                return t1.getScore() - t0.getScore();
             }
         });
 

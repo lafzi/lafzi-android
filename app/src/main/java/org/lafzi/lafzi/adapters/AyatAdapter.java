@@ -93,8 +93,6 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
             int start = hp.getStartHighlight();
             int end = hp.getEndHighlight();
 
-            System.out.println(start);
-            System.out.println(end);
             if (start > end) {
                 int temp = start;
                 start = end;
@@ -106,9 +104,6 @@ public class AyatAdapter extends ArrayAdapter<AyatQuran> {
 
             if (start > ayatArabic.length() - 1) start = ayatArabic.length() - 1;
             if (end > ayatArabic.length() - 1) end = ayatArabic.length() - 1;
-
-            System.out.println(start);
-            System.out.println(end);
 
             wordToSpan.setSpan(new BackgroundColorSpan(Color.argb(128, 255, 238, 64)),
                     start,
