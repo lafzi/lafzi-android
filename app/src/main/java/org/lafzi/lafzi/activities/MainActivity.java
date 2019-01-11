@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,6 +14,7 @@ import android.speech.RecognizerIntent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -122,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         setSearchExamples();
 
         final FloatingActionButton fab = findViewById(R.id.action_main);
+        final Drawable icon = AppCompatResources.getDrawable(this, R.drawable.ic_mic_none_black_24dp);
+        fab.setImageDrawable(icon);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,7 +170,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                     tv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            setupSpeechInput();
+                            doPermissionCheck();
+                            prepareSpeech();
                         }
                     });
                 } else {
