@@ -23,7 +23,6 @@
         android:layout_marginBottom="30dp"
         app:menu_colorNormal="@color/colorAccentTransparent"
         app:menu_colorPressed="@color/colorAccentTransparent"
-        app:menu_icon="@drawable/ic_more_vert_black_24dp"
         android:id="@+id/action_menu">
         <com.github.clans.fab.FloatingActionButton
             android:layout_width="wrap_content"

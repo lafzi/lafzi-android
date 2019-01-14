@@ -12,22 +12,25 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import org.lafzi.android.R;
 import org.lafzi.lafzi.adapters.AyatPagerAdapter;
 import org.lafzi.lafzi.helpers.BitmapHelper;
-import org.lafzi.lafzi.helpers.database.AllAyatHandler;
+import org.lafzi.lafzi.models.AyatQuran;
+import org.lafzi.lafzi.models.builder.AyatQuranBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +39,7 @@ public class SingleAyatActivity extends AppCompatActivity {
 
     private final String AYAT_ID = "ayat_id";
     private int ayatId;
+    private AyatQuran mAyatShare;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,16 +75,17 @@ public class SingleAyatActivity extends AppCompatActivity {
             case 999:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    new Handler().post(new ShareRunnable());
+                    new Handler().post(new ShareRunnable(mAyatShare));
                 }
         }
     }
 
     private void setView() {
-        final ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        final FloatingActionButton shareButton = (FloatingActionButton) findViewById(R.id.share_button);
-        final FloatingActionButton backButton = (FloatingActionButton) findViewById(R.id.back_button);
-        final FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.next_button);
+        final ViewPager pager = findViewById(R.id.pager);
+        final FloatingActionMenu menu = findViewById(R.id.action_menu);
+        final FloatingActionButton shareButton = findViewById(R.id.share_button);
+        final FloatingActionButton backButton = findViewById(R.id.back_button);
+        final FloatingActionButton nextButton = findViewById(R.id.next_button);
 
         final FragmentStatePagerAdapter adapter = new AyatPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
@@ -100,7 +105,9 @@ public class SingleAyatActivity extends AppCompatActivity {
             }
         });
 
-        shareButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_share_black_24dp));
+        menu.getMenuIconView().setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_more_vert_black_24dp));
+
+        shareButton.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_share_black_24dp));
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,17 +118,21 @@ public class SingleAyatActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        final String arabic = ((TextView) pager.findViewById(R.id.single_ayat_arab)).getText().toString();
+                        final String indonesia = ((TextView) pager.findViewById(R.id.single_ayat_indo)).getText().toString();
+                        final String suratAyat = ((TextView) pager.findViewById(R.id.single_surat_ayat)).getText().toString();
                         switch (which) {
                             case 0:
-                                BitmapHelper.requestPermissionWritePublicStorage(SingleAyatActivity.this, new ShareRunnable());
+                                AyatQuranBuilder aqBuilder = AyatQuranBuilder.getInstance();
+                                aqBuilder.setAyatArabic(arabic);
+                                aqBuilder.setAyatIndonesian(indonesia);
+                                aqBuilder.setSurahName(suratAyat);
+                                mAyatShare = aqBuilder.build();
+                                Log.i("SHARE", mAyatShare.getAyatArabic());
+                                BitmapHelper.requestPermissionWritePublicStorage(SingleAyatActivity.this, new ShareRunnable(mAyatShare));
                                 break;
                             case 1:
                                 shareIntent.setType("text/plain");
-
-                                final String arabic = ((TextView) pager.findViewById(R.id.single_ayat_arab)).getText().toString();
-                                final String indonesia = ((TextView) pager.findViewById(R.id.single_ayat_indo)).getText().toString();
-                                final String suratAyat = ((TextView) pager.findViewById(R.id.single_surat_ayat)).getText().toString();
-
                                 shareIntent.putExtra(Intent.EXTRA_TEXT, suratAyat + "\n\n" + arabic + "\n" + indonesia + "\n\n" + getString(R.string.text_footer));
                                 startActivity(Intent.createChooser(shareIntent, getString(R.string.bagikan_menggunakan)));
                         }
@@ -131,7 +142,7 @@ public class SingleAyatActivity extends AppCompatActivity {
             }
         });
 
-        backButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back_black_24dp));
+        backButton.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_arrow_back_black_24dp));
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,7 +153,7 @@ public class SingleAyatActivity extends AppCompatActivity {
             }
         });
 
-        nextButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_arrow_forward_black_24dp));
+        nextButton.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_arrow_forward_black_24dp));
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,6 +168,12 @@ public class SingleAyatActivity extends AppCompatActivity {
 
     private class ShareRunnable implements Runnable {
 
+        private final AyatQuran aq;
+
+        public ShareRunnable(AyatQuran aq) {
+            this.aq = aq;
+        }
+
         @Override
         public void run() {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -164,10 +181,7 @@ public class SingleAyatActivity extends AppCompatActivity {
             File imageFile = null;
             try {
                 imageFile = BitmapHelper.saveBitmap(BitmapHelper
-                                .loadBitmapFromView(AllAyatHandler
-                                        .getInstance()
-                                        .getAllAyats()
-                                        .get(ayatId-1), getApplicationContext()), getApplicationContext());
+                                .loadBitmapFromView(aq, getApplicationContext()), getApplicationContext());
             } catch (IOException e) {
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getApplicationContext());
                 alertBuilder.setTitle(R.string.gagal_membagi);

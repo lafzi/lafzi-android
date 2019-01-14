@@ -41,47 +41,17 @@ public class AyatQuranDao {
         final String selection = AyatQuran._ID + " = ?";
         final String[] selectionArgs = { Integer.toString(id) };
 
-        final Cursor cursor = db.query(AyatQuran.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
-
-        if (cursor.moveToNext()){
-            try {
+        Cursor cursor = null;
+        try {
+            cursor = db.query(AyatQuran.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+            if (cursor.moveToNext()) {
                 return readAyatQuranFromCursor(cursor, mappingPosColumnName);
-            } finally {
-                cursor.close();
             }
-
+        } finally {
+            cursor.close();
         }
 
         return null;
-    }
-
-    public List<AyatQuran> getAyatQurans(final boolean isVocal){
-
-        final String mappingPosColumnName = isVocal ?
-                AyatQuran.VOCAL_MAPPING_POSITION :
-                AyatQuran.NONVOCAL_MAPPING_POSITIONG;
-
-        final String[] projection = {
-                AyatQuran._ID,
-                AyatQuran.SURAH_NO,
-                AyatQuran.SURAH_NAME,
-                AyatQuran.AYAT_NO,
-                AyatQuran.AYAT_ARABIC,
-                AyatQuran.AYAT_INDONESIAN,
-                AyatQuran.AYAT_MUQATHAAT,
-                mappingPosColumnName
-        };
-
-        final Cursor cursor = db.query(AyatQuran.TABLE_NAME, projection, null, null, null, null, null);
-        final List<AyatQuran> result = new ArrayList<>();
-
-        while (cursor.moveToNext()){
-            final AyatQuran ayat = readAyatQuranFromCursor(cursor, mappingPosColumnName);
-            result.add(ayat);
-        }
-        cursor.close();
-
-        return result;
     }
 
     private AyatQuran readAyatQuranFromCursor(final Cursor cursor, final String mappingPosColumnName){

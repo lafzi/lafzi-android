@@ -43,34 +43,40 @@ public class QuranTextDao {
         String query = GeneralUtil.reverse(normalizeInput(in));
         final String[] args = {query};
 
-        Cursor cursor = db.rawQuery("SELECT\n" +
-                "\tdocid,\n" +
-                "\toffsets(quran_text) pos,\n" +
-                "\ttext_reverse text ,\n" +
-                "\tayat_quran.arabic_text_length full_length,\n" +
-                "\tayat_quran.short_arabic_text_length short_length,\n" +
-                "\tmatchinfo(quran_text, 's') subsequence\n" +
-                "from \n" +
-                "\tquran_text \n" +
-                "JOIN ayat_quran ON ayat_quran._id = quran_text.docid\n" +
-                "WHERE text_reverse MATCH ?", args);
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery("SELECT\n" +
+                    "\tdocid,\n" +
+                    "\toffsets(quran_text) pos,\n" +
+                    "\ttext_reverse text ,\n" +
+                    "\tayat_quran.arabic_text_length full_length,\n" +
+                    "\tayat_quran.short_arabic_text_length short_length,\n" +
+                    "\tmatchinfo(quran_text, 's') subsequence\n" +
+                    "from \n" +
+                    "\tquran_text \n" +
+                    "JOIN ayat_quran ON ayat_quran._id = quran_text.docid\n" +
+                    "WHERE text_reverse MATCH ?", args);
 
-        final List<QuranText> results = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            final QuranText qt = readQuranTextFromCursor(cursor);
-            results.add(qt);
-        }
-        Collections.sort(results, new Comparator<QuranText>() {
-            @Override
-            public int compare(QuranText t0, QuranText t1) {
-                if (t1.getScore() == t0.getScore()) {
-                    return t0.getDocId() - t1.getDocId();
-                }
-                return t1.getScore() - t0.getScore();
+            final List<QuranText> results = new ArrayList<>();
+            while (cursor.moveToNext()) {
+                final QuranText qt = readQuranTextFromCursor(cursor);
+                results.add(qt);
             }
-        });
+            Collections.sort(results, new Comparator<QuranText>() {
+                @Override
+                public int compare(QuranText t0, QuranText t1) {
+                    if (t1.getScore() == t0.getScore()) {
+                        return t0.getDocId() - t1.getDocId();
+                    }
+                    return t1.getScore() - t0.getScore();
+                }
+            });
 
-        return results;
+            return results;
+        } finally {
+            cursor.close();
+        }
+
     }
 
     private QuranText readQuranTextFromCursor(final Cursor cursor) {

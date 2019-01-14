@@ -7,11 +7,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,16 +79,12 @@ public class BitmapHelper {
         LinearLayout view = new LinearLayout(context);
         inflater.inflate(R.layout.dummy_layout, view, true);
 
-        TextView suratAyat = (TextView) view.findViewById(R.id.dummy_surat_ayat);
-        TextView indo = (TextView) view.findViewById(R.id.dummy_ayat_indo);
-        TextView arab = (TextView) view.findViewById(R.id.dummy_ayat_arab);
-        ImageView iv = (ImageView) view.findViewById(R.id.footer_logo);
+        TextView suratAyat = view.findViewById(R.id.dummy_surat_ayat);
+        TextView indo = view.findViewById(R.id.dummy_ayat_indo);
+        TextView arab = view.findViewById(R.id.dummy_ayat_arab);
+        ImageView iv = view.findViewById(R.id.footer_logo);
 
-        final String surah = context.getString(R.string.surah);
-        final String ayah = context.getString(R.string.ayah);
-        final String suratAndAyatText = surah + " " + ayatQuran.getSurahName() + " (" + ayatQuran.getSurahNo() + ") " + ayah + " " + ayatQuran.getAyatNo();
-
-        suratAyat.setText(suratAndAyatText);
+        suratAyat.setText(ayatQuran.getSurahName());
         Typeface meQuran = Typeface.createFromAsset(context.getAssets(), "fonts/me_quran.ttf");
         arab.setTypeface(meQuran);
         final String ayatArabic = GeneralUtil.isNullOrEmpty(ayatQuran.getAyatMuqathaat()) ?
@@ -94,7 +92,8 @@ public class BitmapHelper {
         arab.setText(ayatArabic);
         indo.setText(ayatQuran.getAyatIndonesian());
 
-        iv.setImageResource(R.drawable.logo_lafzi_big);
+        final Drawable logo = AppCompatResources.getDrawable(context, R.drawable.logo_lafzi_big);
+        iv.setImageDrawable(logo);
 
         return view;
     }

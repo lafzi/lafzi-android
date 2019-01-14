@@ -6,9 +6,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import org.lafzi.android.R;
-import org.lafzi.lafzi.helpers.database.AllAyatHandler;
-import org.lafzi.lafzi.helpers.database.DbHelper;
-import org.lafzi.lafzi.helpers.database.dao.AyatQuranDaoFactory;
 import org.lafzi.lafzi.helpers.preferences.Preferences;
 import org.lafzi.lafzi.tasks.MigrateTask;
 
@@ -28,10 +25,6 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                AllAyatHandler allAyatHandler = AllAyatHandler.getInstance();
-                allAyatHandler.setAllAyat(AyatQuranDaoFactory.createAyatDao(DbHelper.getInstance().getReadableDatabase())
-                        .getAyatQurans(Preferences.getInstance().isVocal()));
-
                 final Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();

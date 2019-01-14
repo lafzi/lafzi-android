@@ -11,6 +11,7 @@
         android:layout_marginBottom="30dp"
         app:fab_colorNormal="@color/colorAccentTransparent"
         app:fab_colorPressed="@color/colorAccentTransparent"
+        app:srcCompat="@drawable/ic_mic_none_black_24dp"
         android:id="@+id/action_main"/>
 
     <RelativeLayout
